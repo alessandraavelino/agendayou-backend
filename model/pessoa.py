@@ -1,6 +1,7 @@
 from helpers.database import db
 from flask_restful import fields
 from sqlalchemy.types import String
+import hashlib
 
 pessoa_fields = {
 
@@ -38,11 +39,17 @@ class Pessoa(db.Model):
     def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco):
         self.nome = nome
         self.email = email
-        self.senha = senha
+        self.set_senha(senha)
         self.dt_nasc = dt_nasc
         self.cpf = cpf
         self.telefone = telefone
         self.endereco = endereco
+
+    def set_senha(self, senha):
+        hash_obj = hashlib.sha256(senha.encode('utf-8')) # Cria um objeto hash com a senha
+        senha_criptografada = hash_obj.hexdigest()
+        self.senha = senha_criptografada[:30]
+
 
     def __repr__(self):
         return f'Pessoa(Nome={self.nome}, E-mail={self.email}, Senha={self.senha}, Data de Nascimento={self.dt_nasc}, CPF={self.cpf}, Telefone={self.telefone}, Endereco={self.endereco})'

@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse, current_app, marshal, marshal_with
 from sqlalchemy import exc
 from helpers.database import db
-from model.parceiro import Parceiro, parceiro_fields
+from model.cliente import Cliente, cliente_fields
 from model.endereco import Endereco
 from model.error import Error, error_campos
 
@@ -13,24 +13,22 @@ parser.add_argument('dt_nasc', required=True) #checada de data
 parser.add_argument('cpf', required=True)
 parser.add_argument('telefone', required=True)
 parser.add_argument('endereco', type=dict, required=True)
-parser.add_argument('nome_fantasia', required=True)
-parser.add_argument('categoria', required=True)
 
 '''
-  Classe Funcionário.
+  Classe Cliente.
 '''
 
-class ParceiroResource(Resource):
+class ClienteResource(Resource):
 
-    @marshal_with(parceiro_fields)
+    @marshal_with(cliente_fields)
     def get(self):
-        current_app.logger.info("Get - Parceiros")
-        parceiro = Parceiro.query\
+        current_app.logger.info("Get - Clientes")
+        cliente = Cliente.query\
             .all()
-        return parceiro, 200
+        return cliente, 200
 
     def post(self):
-        current_app.logger.info("Post - Parceiros")
+        current_app.logger.info("Post - Clientes")
         try:
             # JSON
             args = parser.parse_args()
@@ -40,8 +38,6 @@ class ParceiroResource(Resource):
             dt_nasc = args['dt_nasc']
             cpf = args['cpf']
             telefone = args['telefone']
-            nome_fantasia = args['nome_fantasia']
-            categoria = args['categoria']
 
             enderecoArgs = args['endereco']
             cep = enderecoArgs['cep']
@@ -53,9 +49,9 @@ class ParceiroResource(Resource):
 
             endereco = Endereco(cep, estado, cidade, bairro, rua, numero)
 
-            parceiro = Parceiro(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, nome_fantasia=nome_fantasia, categoria=categoria, email=email, senha=senha)
+            cliente = Cliente(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, email=email, senha=senha)
 
-            db.session.add(parceiro)
+            db.session.add(cliente)
             db.session.commit()
             
         except exc.SQLAlchemyError as err:
