@@ -1,7 +1,5 @@
 from helpers.database import db
 from flask_restful import fields
-from sqlalchemy.types import String
-from model.pessoa import Pessoa
 
 profissional_fields = {
 
@@ -23,11 +21,10 @@ class Profissional(db.Model):
     parceiro = db.relationship("Parceiro", uselist=False)
     parceiro_id = db.Column(db.Integer, db.ForeignKey("tb_parceiro.id_parceiro"))
 
-    def __init__(self, nome, cargo, salario, parceiro):
+    def __init__(self, nome, cargo, salario):
         self.nome = nome
         self.cargo = cargo
         self.salario = salario
-        self.parceiro = parceiro
 
     def __repr__(self):
-        return f'Profissional(Nome={self.nome}, Cargo={self.cargo}, Salário={self.salario}, Parceiro={self.parceiro})'
+        return f'Profissional(Nome={self.nome}, Cargo={self.cargo}, Salário={self.salario})'
