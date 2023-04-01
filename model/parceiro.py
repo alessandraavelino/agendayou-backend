@@ -32,8 +32,6 @@ class Parceiro(Pessoa, db.Model):
 
     def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco, nome_fantasia, categoria):
         super().__init__(nome, email, senha, dt_nasc, cpf, telefone, endereco)
-        self.email = email
-        self.senha = senha
         self.nome_fantasia = nome_fantasia
         self.categoria = categoria
 

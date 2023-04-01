@@ -14,6 +14,7 @@ from resources.parceiro import ParceiroResource
 from resources.profissional import ProfissionalResource, ProfissionalUpdate
 from resources.agendamento import AgendamentoResource
 from resources.servico import ServicoResource
+from resources.cliente import ClienteResource
 # CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -59,5 +60,7 @@ api.add_resource(ProfissionalUpdate, '/profissional/<int:id_profissional>')
 
 api.add_resource(AgendamentoResource, '/agendamentos')
 api.add_resource(ServicoResource, '/servicos')
+
+api.add_resource(ClienteResource, '/clientes')
 if __name__ == '__main__':
     app.run(debug=False)
