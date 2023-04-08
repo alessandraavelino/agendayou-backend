@@ -42,8 +42,7 @@ class AgendamentoResource(Resource):
 
             servico = Servico(tipo_servico, profissional, valor, horario)
 
-            agendamento = Agendamento(nome, email, telefone, servico)
-
+            agendamento = Agendamento(nome=nome, email=email, telefone=telefone, servico=servico)
             db.session.add(agendamento)
             db.session.commit()
             
