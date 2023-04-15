@@ -30,7 +30,7 @@ migrate.init_app(app, db)
 api = Api(app)
 
 # Instâncias
-endereco = Endereco("58255000", "Paraíba", "Belém", "Centro", "Rua São Joaquim", "160")
+endereco = Endereco("58255000", "Paraíba", "Belém", "Centro", "Rua São Joaquim")
 # pessoa = Pessoa("Alê", "ale@mail.com", "12343", "23/01/2002", "123.456.789-80", "83996097405", endereco)
 # print(pessoa)
 

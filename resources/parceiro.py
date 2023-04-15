@@ -4,7 +4,7 @@ from helpers.database import db
 from model.parceiro import Parceiro, parceiro_fields
 from model.endereco import Endereco
 from model.error import Error, error_campos
-
+from werkzeug.security import generate_password_hash
 parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="Email é um campo obrigatório.")
 parser.add_argument('senha', required=True, help="Senha é campo obrigatório.")
@@ -51,9 +51,11 @@ class ParceiroResource(Resource):
             rua = enderecoArgs['rua']
             numero = enderecoArgs['numero']
 
+            hashed_password = generate_password_hash(senha, method='sha256')
+
             endereco = Endereco(cep, estado, cidade, bairro, rua, numero)
 
-            parceiro = Parceiro(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, nome_fantasia=nome_fantasia, categoria=categoria, email=email, senha=senha)
+            parceiro = Parceiro(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, nome_fantasia=nome_fantasia, categoria=categoria, email=email, senha=hashed_password)
 
             db.session.add(parceiro)
             db.session.commit()

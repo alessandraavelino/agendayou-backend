@@ -10,7 +10,6 @@ endereco_fields = {
     'cidade': fields.String(attribute='cidade'),
     'bairro': fields.String(attribute='bairro'),
     'rua': fields.String(attribute='rua'),
-    'numero': fields.String(attribute='numero'),
 }
 
 class Endereco(db.Model):
@@ -23,18 +22,16 @@ class Endereco(db.Model):
     cidade = db.Column(db.String(100), nullable=False)
     bairro = db.Column(db.String(100), nullable=False)
     rua = db.Column(db.String(100), nullable=False)
-    numero = db.Column(db.String(10), nullable=False)
 
     # Relacionamento com Pessoa
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
 
-    def __init__(self, cep, estado, cidade, bairro, rua, numero):
+    def __init__(self, cep, estado, cidade, bairro, rua):
         self.cep = cep
         self.estado = estado
         self.cidade = cidade
         self.bairro = bairro
         self.rua = rua
-        self.numero = numero
 
     def __repr__(self):
-        return f'Endereço(CEP={self.cep}, Estado={self.estado}, Cidade={self.cidade}, Bairro={self.bairro}, Rua={self.rua}, Número={self.numero})'
+        return f'Endereço(CEP={self.cep}, Estado={self.estado}, Cidade={self.cidade}, Bairro={self.bairro}, Rua={self.rua})'

@@ -8,6 +8,9 @@ from model.pessoa import Pessoa
 from model.login import Login, login_campos
 from model.error import Error, error_campos
 
+from werkzeug.security import check_password_hash
+import re
+
 parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="Campo e-mail é obrigatório.")
 parser.add_argument('senha', required=True, help="Campo senha é obrigatório.")
@@ -19,24 +22,21 @@ class LoginResource(Resource):
         current_app.logger.info("Post - Login")
 
         try:
-            # JSON
+            
             args = parser.parse_args()
             email = args['email']
             senha = args['senha']
-            # TODO - Adicionar consulta ao banco de dados.
-            # Consultar se exite o pessoa através do e-mail e senha
-            pessoa = Pessoa.query.filter_by(email=email, senha=senha).first()
-            # db.select(Pessoa).filter_by(email=email, senha=senha).first()
-            # db.session.query(Pessoa).filter(Pessoa.email == email, Pessoa.senha == senha)
 
-            if (pessoa is not None):
+            pessoa = Pessoa.query.filter_by(email=email).first()
+
+            if pessoa and check_password_hash(pessoa.senha, senha):
+
                 dataHoraLogin = datetime.now()
                 hash = hashlib.sha1()
                 hash.update(str(dataHoraLogin).encode("utf-8"))
                 key = hash.hexdigest()
                 login = Login(pessoa, dataHoraLogin, key)
 
-                # Criação do Login.
                 db.session.add(login)
                 db.session.commit()
 

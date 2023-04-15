@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\aless\OneDrive\Documentos\Agenday\agenday-project\back-end\venv"
+VIRTUAL_ENV="C:\Users\aless\OneDrive\Documentos\Agenday\agenday-project\agendayou-backend\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

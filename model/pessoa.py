@@ -1,6 +1,7 @@
 from helpers.database import db
 from flask_restful import fields
 from sqlalchemy.types import String
+from werkzeug.security import generate_password_hash
 pessoa_fields = {
 
     'id_pessoa': fields.Integer(attribute='id_pessoa'),
@@ -21,7 +22,7 @@ class Pessoa(db.Model):
     id_pessoa = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
-    senha = db.Column(db.String(50), nullable=False)
+    senha = db.Column(db.String(256), nullable=False)
     dt_nasc = db.Column(db.String(10), nullable=False)
     cpf = db.Column(db.String(14), nullable=False)
     telefone = db.Column(db.String(10), nullable=False)
@@ -37,11 +38,15 @@ class Pessoa(db.Model):
     def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco):
         self.nome = nome
         self.email = email
-        self.senha = senha
+        self.set_senha(senha)
         self.dt_nasc = dt_nasc
         self.cpf = cpf
         self.telefone = telefone
         self.endereco = endereco
+
+    def set_senha(self, senha):
+        self.senha = generate_password_hash(senha, method='sha256')
+
 
 
     def __repr__(self):

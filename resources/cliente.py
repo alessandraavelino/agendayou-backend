@@ -45,10 +45,10 @@ class ClienteResource(Resource):
             cidade = enderecoArgs['cidade']
             bairro = enderecoArgs['bairro']
             rua = enderecoArgs['rua']
-            numero = enderecoArgs['numero']
 
-            endereco = Endereco(cep, estado, cidade, bairro, rua, numero)
-
+            endereco = Endereco(cep, estado, cidade, bairro, rua)
+            
+    
             cliente = Cliente(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, email=email, senha=senha)
 
             db.session.add(cliente)
