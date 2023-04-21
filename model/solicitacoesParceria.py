@@ -18,7 +18,7 @@ class SolicitarParceria(db.Model):
     id_solicitacao = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
-    cnpj = db.Column(db.String(10), nullable=False)
+    cnpj = db.Column(db.String(20), nullable=False)
     qtdFuncion = db.Column(db.Integer(), nullable=False)
     descricao = db.Column(db.String(400), nullable=False)
     status = db.Column(db.String(20))
