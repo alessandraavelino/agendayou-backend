@@ -42,18 +42,7 @@ class ParceiroResource(Resource):
             nome_fantasia = args['nome_fantasia']
             categoria = args['categoria']
 
-            enderecoArgs = args['endereco']
-            cep = enderecoArgs['cep']
-            estado = enderecoArgs['estado']
-            cidade = enderecoArgs['cidade']
-            bairro = enderecoArgs['bairro']
-            rua = enderecoArgs['rua']
-            numero = enderecoArgs['numero']
-
-
-            endereco = Endereco(cep, estado, cidade, bairro, rua, numero)
-
-            parceiro = Parceiro(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, nome_fantasia=nome_fantasia, categoria=categoria, email=email, senha=senha)
+            parceiro = Parceiro(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, nome_fantasia=nome_fantasia, categoria=categoria, email=email, senha=senha)
 
             db.session.add(parceiro)
             db.session.commit()
