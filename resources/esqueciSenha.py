@@ -1,5 +1,5 @@
 from flask import abort
-from flask_restful import Resource, reqparse, current_app, marshal, marshal_with, Resource
+from flask_restful import Resource, reqparse, current_app, marshal, marshal_with
 from sqlalchemy import exc
 import hashlib
 from datetime import datetime
@@ -59,7 +59,7 @@ class EsqueciSenha(Resource):
 
 class AtualizarSenhaResource(Resource):
 
-    def put(self, id):
+    def put(self, id_pessoa):
         current_app.logger.info("Put - Atualizar senha")
 
         try:
@@ -69,11 +69,11 @@ class AtualizarSenhaResource(Resource):
             nova_senha = args['nova_senha']
 
             # obter a pessoa correspondente ao código
-            pessoa = Pessoa.query.filter_by(codigo=codigo).first()
+            pessoa = Pessoa.query.filter_by(id_pessoa=id_pessoa).first()
 
             # se não encontrou a pessoa correspondente ao código, abortar a requisição
             if not pessoa:
-                abort(404, message=f"Código inválido: {codigo}")
+                 abort(404, message=f"Código inválido: {codigo}")
 
             # atualizar a senha da pessoa
             pessoa.senha = generate_password_hash(nova_senha)
@@ -82,10 +82,11 @@ class AtualizarSenhaResource(Resource):
             db.session.commit()
 
             # retornar a pessoa atualizada
-            return (marshal(pessoa, Pessoa.campos), 200)
+            return 204
 
         except exc.SQLAlchemyError as err:
             current_app.logger.error(err)
             erro = Error(1, "Erro ao atualizar no banco de dados, consulte o adminstrador",
                          err.__cause__())
             return marshal(erro, error_campos), 500
+        

@@ -23,7 +23,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:123456@localhost:5432/agendayou"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:1243@localhost:5432/agendayou"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -59,7 +59,7 @@ api.add_resource(ParceiroResource, '/parceiros')
 api.add_resource(LoginResource, '/login')
 
 api.add_resource(EsqueciSenha, '/esquecisenha')
-api.add_resource(AtualizarSenhaResource, '/esquecisenha/<int:id_cliente>')
+api.add_resource(AtualizarSenhaResource, '/esquecisenha/<int:id_pessoa>')
 
 api.add_resource(ProfissionalResource, '/profissional')
 api.add_resource(ProfissionalUpdate, '/profissional/<int:id_profissional>')
