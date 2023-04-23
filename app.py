@@ -9,9 +9,9 @@ from model.profissional import Profissional
 from model.servico import Servico
 from model.cliente import Cliente
 from model.agendamento import Agendamento
-from resources.login import LoginResource, EsqueciSenha
+from resources.login import LoginResource
 
-from resources.utils import GeracaoDeCodigo
+from resources.esqueciSenha import EsqueciSenha, AtualizarSenhaResource
 
 from resources.parceiro import ParceiroResource
 from resources.profissional import ProfissionalResource, ProfissionalUpdate
@@ -57,7 +57,9 @@ print(agendamento)
 # Resources
 api.add_resource(ParceiroResource, '/parceiros')
 api.add_resource(LoginResource, '/login')
+
 api.add_resource(EsqueciSenha, '/esquecisenha')
+api.add_resource(AtualizarSenhaResource, '/esquecisenha/<int:id_cliente>')
 
 api.add_resource(ProfissionalResource, '/profissional')
 api.add_resource(ProfissionalUpdate, '/profissional/<int:id_profissional>')
