@@ -18,6 +18,7 @@ import re
 
 parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="Campo e-mail é obrigatório.")
+codigo_gerado = GerarCodigo()
 
 parserAtualizar = reqparse.RequestParser()
 parserAtualizar.add_argument('codigo', required=True, help="Campo código é obrigatório.")
@@ -31,8 +32,8 @@ class EsqueciSenha(Resource):
             # JSON
             args = parser.parse_args()
             email_destinatario = args['email']
-
-            corpo_email = "<p>" + "Codigo para atualizacao da senha: " + GerarCodigo() + "</p>"
+            
+            corpo_email = "<p>" + "Codigo para atualizacao da senha: " + codigo_gerado + "</p>"
             
             msg = MIMEText(corpo_email, 'html')
             msg['Subject'] = "Codigo para Redefinicao da senha"
@@ -53,7 +54,7 @@ class EsqueciSenha(Resource):
                          err.__cause__())
             return marshal(erro, error_campos), 500
 
-        return [{"message": "Convite enviado com sucesso!"}, 204]
+        return [{"message": "codigo enviado com sucesso!"}, 204]
     
 
 
@@ -69,11 +70,17 @@ class AtualizarSenhaResource(Resource):
             nova_senha = args['nova_senha']
 
             # obter a pessoa correspondente ao código
-            pessoa = Pessoa.query.filter_by(id_pessoa=id_pessoa).first()
-
-            # se não encontrou a pessoa correspondente ao código, abortar a requisição
+            pessoa = Pessoa.query.filter_by(id_pessoa=id_pessoa).first()           
+            # se não encontrou a pessoa, abortar a requisição
             if not pessoa:
-                 abort(404, message=f"Código inválido: {codigo}")
+                 abort(404, message=f"pessoa com id: {id_pessoa}, não encontrada")
+            
+            if codigo != codigo_gerado:
+                abort(400, message="Código inválido")
+            
+            if len(nova_senha) < 8:
+                abort(400, message="A senha deve conter pelos menos 8 caracteres")
+
 
             # atualizar a senha da pessoa
             pessoa.senha = generate_password_hash(nova_senha)
@@ -82,7 +89,7 @@ class AtualizarSenhaResource(Resource):
             db.session.commit()
 
             # retornar a pessoa atualizada
-            return 204
+            return [{"message": "senha atualizada com sucesso!"}, 204]
 
         except exc.SQLAlchemyError as err:
             current_app.logger.error(err)
