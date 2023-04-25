@@ -1,5 +1,5 @@
-from flask import abort
-from flask_restful import Resource, reqparse, current_app, marshal, marshal_with
+from flask import Flask
+from flask_restful import Resource, reqparse, current_app, marshal, marshal_with, abort
 from sqlalchemy import exc
 import hashlib
 from datetime import datetime
