@@ -19,7 +19,6 @@ class Login(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
-
     datahora = db.Column(db.DateTime, default=datetime.now)
 
     key = db.Column(db.String(40))

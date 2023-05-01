@@ -18,6 +18,7 @@ from resources.servico import ServicoResource
 from resources.cliente import ClienteResource
 from resources.solicitarParceria import SolicParceriaResource
 from resources.solicitarParceria import StatusAprovacao
+from resources.administrador import AdministradorResource
 # CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -67,7 +68,8 @@ api.add_resource(ServicoResource, '/servicos')
 
 api.add_resource(ClienteResource, '/clientes')
 
+api.add_resource(AdministradorResource, '/administrador')
 api.add_resource(SolicParceriaResource, '/solicitarparceria')
-api.add_resource(StatusAprovacao, '/solicitarparceria/<int:id_solicitacao>')
+api.add_resource(StatusAprovacao, '/solicitarparceria/<int:id_solicitacao>/<email>')
 if __name__ == '__main__':
     app.run(debug=False)

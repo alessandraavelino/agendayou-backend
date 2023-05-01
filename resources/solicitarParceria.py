@@ -4,6 +4,10 @@ from helpers.database import db
 from model.error import Error, error_campos
 from model.solicitacoesParceria import SolicitarParceria, solicParceria_fields
 from flask import jsonify
+import smtplib
+from flask import make_response
+
+from email.mime.text import MIMEText
 parser = reqparse.RequestParser()
 parser.add_argument('nome')
 parser.add_argument('email')
@@ -11,6 +15,7 @@ parser.add_argument('cnpj')
 parser.add_argument('qtdFunc')
 parser.add_argument('descricao')
 parser.add_argument('status')
+
 '''
   Classe Solicitar Parceria.
 '''
@@ -70,14 +75,55 @@ class StatusAprovacao(Resource):
 
         return 204
     
-    def delete(self, id_solicitacao):
+    def delete(self, id_solicitacao, email):
         try:
             solicitacao = SolicitarParceria.query.filter_by(id_solicitacao=id_solicitacao).first()
-
+            
             if solicitacao:
+                email_destinatario = email
+            
+                corpo_email = """
+                                <h5>Solicitação de Parceria - AgendaYOU</h5>
+
+                                "<p>Gostaríamos de agradecer pelo interesse em"
+                                estabelecer uma parceria conosco. Analisamos
+                                cuidadosamente sua proposta e apreciamos o
+                                tempo e esforço que você investiu em nos 
+                                apresentar sua empresa e seus objetivos.</p>
+
+                                <p>Após uma análise minuciosa, no entanto, 
+                                decidimos que, neste momento, não estamos 
+                                em posição de aceitar sua proposta de parceria. 
+                                Queremos que saiba que isso não reflete sobre a 
+                                qualidade de sua empresa ou de seus serviços, 
+                                mas sim em nossa atual estratégia de negócios.</p>
+
+                                <p>Queremos expressar nossa gratidão pela sua proposta 
+                                e esperamos que possamos continuar em contato no futuro. 
+                                Agradecemos novamente pela sua consideração e desejamos 
+                                o melhor para o sucesso contínuo de sua empresa.</p>
+
+                                <p>Atenciosamente,</p>
+                                <p>AgendaYOU</p>
+                            """
+                
+                msg = MIMEText(corpo_email, 'html')
+                msg['Subject'] = "Feedback Parceria - AgendaYOU"
+                msg['From']  = "agendayoficial@gmail.com"
+                msg['To'] = email_destinatario
+                password = "pcgbkkrsnuotykug" #Essa senha será gerada através de uma config lá do google
+                msg.add_header("Content-Type", "text/html")
+                
+                s = smtplib.SMTP('smtp.gmail.com: 587')
+                s.starttls()
+                s.login(msg['From'], password)
+                #s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
+                print("Email enviado com sucesso!!")
+
                 db.session.delete(solicitacao)
                 db.session.commit()
-                return 200
+                
+                return 204
             else:
                 return 404
 
