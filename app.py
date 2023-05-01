@@ -9,6 +9,7 @@ from model.profissional import Profissional
 from model.servico import Servico
 from model.cliente import Cliente
 from model.agendamento import Agendamento
+from model.solicitacoesParceria import SolicitarParceria
 from resources.login import LoginResource
 
 from resources.esqueciSenha import EsqueciSenha, AtualizarSenhaResource
@@ -18,6 +19,9 @@ from resources.profissional import ProfissionalResource, ProfissionalUpdate
 from resources.agendamento import AgendamentoResource
 from resources.servico import ServicoResource
 from resources.cliente import ClienteResource
+from resources.solicitarParceria import SolicParceriaResource
+from resources.solicitarParceria import StatusAprovacao
+from resources.administrador import AdministradorResource
 # CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -40,7 +44,8 @@ endereco = Endereco("58255000", "Paraíba", "Belém", "Centro", "Rua São Joaqui
 # parceiro = Parceiro("dfdsf", "rtret", "Maria", "10/01/2001", "987.654.321-20", "40028922", endereco, "Mary Beautiful", "Beleza")
 # print(parceiro)
 
-
+solicitacao = SolicitarParceria("Ale", "ale@mail.com", "2132132130", 5, "aprove-me", None)
+print(solicitacao)
 servico = Servico("Fisioterapia", "Marcos", "65,OO", "2023-03-02 23:43:33")
 print(servico)
 
@@ -68,5 +73,9 @@ api.add_resource(AgendamentoResource, '/agendamentos')
 api.add_resource(ServicoResource, '/servicos')
 
 api.add_resource(ClienteResource, '/clientes')
+
+api.add_resource(AdministradorResource, '/administrador')
+api.add_resource(SolicParceriaResource, '/solicitarparceria')
+api.add_resource(StatusAprovacao, '/solicitarparceria/<int:id_solicitacao>/<email>')
 if __name__ == '__main__':
     app.run(debug=False)

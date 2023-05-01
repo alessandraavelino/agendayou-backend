@@ -15,7 +15,7 @@ parceiro_fields = {
     'categoria': fields.String(attribute='categoria'),
     'nome_fantasia': fields.String(attribute='nome_fantasia'),
     'endereco': fields.Nested(endereco_fields),
-    
+    'tipo_pessoa': fields.String(attribute='tipo_pessoa')
 }
 
 class Parceiro(Pessoa, db.Model):
@@ -29,6 +29,7 @@ class Parceiro(Pessoa, db.Model):
     status_aprovacao = db.Column(db.String(10), nullable=True)
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
+    tipo_pessoa = db.Column('tipo_pessoa', String(50), default='parceiro')
 
     def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco, nome_fantasia, categoria):
         super().__init__(nome, email, senha, dt_nasc, cpf, telefone, endereco)

@@ -32,14 +32,16 @@ class LoginResource(Resource):
             senha = args['senha']
 
             pessoa = Pessoa.query.filter_by(email=email).first()
+            
 
+            
             if pessoa and check_password_hash(pessoa.senha, senha):
-
                 dataHoraLogin = datetime.now()
                 hash = hashlib.sha1()
                 hash.update(str(dataHoraLogin).encode("utf-8"))
                 key = hash.hexdigest()
                 login = Login(pessoa, dataHoraLogin, key)
+                
 
                 db.session.add(login)
                 db.session.commit()
