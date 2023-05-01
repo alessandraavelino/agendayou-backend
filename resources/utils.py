@@ -8,13 +8,13 @@ def GerarCodigo():
 
     password_list = []
 
-    for letter in range(1, 7):
+    for letter in range(1, 15):
         password_list.append(random.choice(letters))
     
-    for symbol in range(1, 3):
+    for symbol in range(1, 2):
         password_list.append(random.choice(symbols))
     
-    for number in range(1, 4):
+    for number in range(1, 8):
         password_list.append(random.choice(numbers))
 
     random.shuffle(password_list)

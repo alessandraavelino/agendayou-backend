@@ -60,7 +60,7 @@ class EsqueciSenha(Resource):
 
 class AtualizarSenhaResource(Resource):
 
-    def put(self, id_pessoa):
+    def put(self, email):
         current_app.logger.info("Put - Atualizar senha")
 
         try:
@@ -69,11 +69,11 @@ class AtualizarSenhaResource(Resource):
             codigo = args['codigo']
             nova_senha = args['nova_senha']
 
-            # obter a pessoa correspondente ao código
-            pessoa = Pessoa.query.filter_by(id_pessoa=id_pessoa).first()           
+            # obter a pessoa correspondente ao email
+            pessoa = Pessoa.query.filter_by(email=email).first()           
             # se não encontrou a pessoa, abortar a requisição
             if not pessoa:
-                 abort(404, message=f"pessoa com id: {id_pessoa}, não encontrada")
+                 abort(404, message=f"pessoa com email: {email}, não encontrada")
             
             if codigo != codigo_gerado:
                 abort(400, message="Código inválido")

@@ -59,7 +59,7 @@ api.add_resource(ParceiroResource, '/parceiros')
 api.add_resource(LoginResource, '/login')
 
 api.add_resource(EsqueciSenha, '/esquecisenha')
-api.add_resource(AtualizarSenhaResource, '/esquecisenha/<int:id_pessoa>')
+api.add_resource(AtualizarSenhaResource, '/esquecisenha/<string:email>')
 
 api.add_resource(ProfissionalResource, '/profissional')
 api.add_resource(ProfissionalUpdate, '/profissional/<int:id_profissional>')

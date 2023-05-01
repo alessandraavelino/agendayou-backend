@@ -21,11 +21,11 @@ class Pessoa(db.Model):
 
     id_pessoa = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     senha = db.Column(db.String(256), nullable=False)
     dt_nasc = db.Column(db.String(10), nullable=False)
-    cpf = db.Column(db.String(14), nullable=False)
-    telefone = db.Column(db.String(10), nullable=False)
+    cpf = db.Column(db.String(14), unique=True, nullable=False)
+    telefone = db.Column(db.String(12), unique=True,  nullable=False)
 
     # Relacionamento com Endereço
     endereco = db.relationship("Endereco", uselist=False)
