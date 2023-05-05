@@ -23,6 +23,7 @@ codigo_gerado = GerarCodigo()
 parserAtualizar = reqparse.RequestParser()
 parserAtualizar.add_argument('codigo', required=True, help="Campo código é obrigatório.")
 parserAtualizar.add_argument('nova_senha', required=True, help="Campo nova_senha é obrigatório.")
+parserAtualizar.add_argument('confirmar_nova_senha', required=True, help="Campo confirmar_nova_senha é obrigatório.")
 
 
 class EsqueciSenha(Resource):   
@@ -68,6 +69,7 @@ class AtualizarSenhaResource(Resource):
             args = parserAtualizar.parse_args()
             codigo = args['codigo']
             nova_senha = args['nova_senha']
+            confirmar_nova_senha = args['confirmar_nova_senha']
 
             # obter a pessoa correspondente ao email
             pessoa = Pessoa.query.filter_by(email=email).first()           
@@ -80,6 +82,9 @@ class AtualizarSenhaResource(Resource):
             
             if len(nova_senha) < 8:
                 abort(400, message="A senha deve conter pelos menos 8 caracteres")
+
+            if confirmar_nova_senha != nova_senha:
+                abort(400, message="As senhas não se coincidem")
 
 
             # atualizar a senha da pessoa
