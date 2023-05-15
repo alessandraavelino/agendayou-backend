@@ -4,14 +4,12 @@ from helpers.database import db
 from model.parceiro import Parceiro, parceiro_fields
 from model.endereco import Endereco
 from model.error import Error, error_campos
+from email.mime.text import MIMEText
+import smtplib
 parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="Email é um campo obrigatório.")
 parser.add_argument('senha', required=True, help="Senha é campo obrigatório.")
 parser.add_argument('nome', required=True)
-parser.add_argument('dt_nasc', required=True) #checada de data
-parser.add_argument('cpf', required=True)
-parser.add_argument('telefone', required=True)
-parser.add_argument('endereco', type=dict, required=True)
 parser.add_argument('nome_fantasia', required=True)
 parser.add_argument('categoria', required=True)
 
@@ -36,14 +34,50 @@ class ParceiroResource(Resource):
             email = args['email']
             senha = args['senha']
             nome = args['nome']
-            dt_nasc = args['dt_nasc']
-            cpf = args['cpf']
-            telefone = args['telefone']
             nome_fantasia = args['nome_fantasia']
             categoria = args['categoria']
 
-            parceiro = Parceiro(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, nome_fantasia=nome_fantasia, categoria=categoria, email=email, senha=senha)
+            parceiro = Parceiro(nome=nome,  nome_fantasia=nome_fantasia, categoria=categoria, email=email, senha=senha)
 
+            email_destinatario = email
+            
+            corpo_email = f"""
+                            <h5>Solicitação de Parceria - AgendaYOU</h5>
+
+                            "<p>Prezado, {nome}/p>
+
+                            <p>É com grande satisfação que informamos que a sua 
+                            solicitação de parceria foi aprovada. Estamos ansiosos 
+                            para trabalhar juntos e desenvolver uma relação de 
+                            sucesso mútuo.</p>
+
+                            <p>Estamos confiantes de que essa parceria será benéfica
+                            para ambas as partes e que juntos poderemos alcançar 
+                            grandes conquistas. Agradecemos pelo interesse em nossa 
+                            empresa e esperamos contribuir para o crescimento de seu 
+                            negócio</p>
+
+                            <p>Segue seu e-mail e senha para acessar o sistema</p>
+                            <span><strong>E-mail: </strong><span>{email}</span>
+                            <span><strong>E-mail: </strong><span>{senha}</span>
+
+                            <p>Atenciosamente,</p>
+                            <p>AgendaYOU</p>
+                        """
+            
+            msg = MIMEText(corpo_email, 'html')
+            msg['Subject'] = "Feedback Parceria - AgendaYOU"
+            msg['From']  = "agendayoficial@gmail.com"
+            msg['To'] = email_destinatario
+            password = "pcgbkkrsnuotykug" #Essa senha será gerada através de uma config lá do google
+            msg.add_header("Content-Type", "text/html")
+            
+            s = smtplib.SMTP('smtp.gmail.com: 587')
+            s.starttls()
+            s.login(msg['From'], password)
+            #s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
+            print("Email enviado com sucesso!!")
+            
             db.session.add(parceiro)
             db.session.commit()
             

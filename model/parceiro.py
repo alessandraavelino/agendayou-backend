@@ -14,7 +14,7 @@ parceiro_fields = {
     'cpf': fields.String(attribute='cpf'),
     'categoria': fields.String(attribute='categoria'),
     'nome_fantasia': fields.String(attribute='nome_fantasia'),
-    'endereco': fields.Nested(endereco_fields),
+    'endereco': fields.Nested(endereco_fields, allow_null=True),
     'tipo_pessoa': fields.String(attribute='tipo_pessoa')
 }
 
@@ -31,10 +31,11 @@ class Parceiro(Pessoa, db.Model):
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
     tipo_pessoa = db.Column('tipo_pessoa', String(50), default='parceiro')
 
-    def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco, nome_fantasia, categoria):
+    def __init__(self, nome, email, senha, nome_fantasia, categoria, dt_nasc=None, cpf=None, telefone=None, endereco=None):
         super().__init__(nome, email, senha, dt_nasc, cpf, telefone, endereco)
         self.nome_fantasia = nome_fantasia
         self.categoria = categoria
+
 
     def __repr__(self):
         return f'Parceiro(E-mail={self.email}, Senha={self.senha}, Nome={self.nome}, Data de Nascimento={self.dt_nasc}, CPF={self.cpf}, Telefone={self.telefone}, Endereço={self.endereco}, Nome Fantasia={self.nome_fantasia}, Categoria={self.categoria})'

@@ -10,6 +10,8 @@ from flask import make_response
 from email.mime.text import MIMEText
 parser = reqparse.RequestParser()
 parser.add_argument('nome')
+parser.add_argument('nome_fantasia')
+parser.add_argument('categoria')
 parser.add_argument('email')
 parser.add_argument('cnpj')
 parser.add_argument('qtdFunc')
@@ -35,13 +37,15 @@ class SolicParceriaResource(Resource):
             # JSON
             args = parser.parse_args()
             nome = args['nome']
+            nome_fantasia = args['nome_fantasia']
+            categoria = args['categoria']
             email = args['email']
             cnpj = args['cnpj']
             qtdFunc = args['qtdFunc']
             descricao = args['descricao']
 
 
-            solicitacao = SolicitarParceria(nome, email, cnpj, qtdFunc, descricao)
+            solicitacao = SolicitarParceria(nome, nome_fantasia, email, cnpj, categoria, qtdFunc, descricao)
             
             db.session.add(solicitacao)
             db.session.commit()
@@ -74,6 +78,7 @@ class StatusAprovacao(Resource):
             current_app.logger.error("Exceção")
 
         return 204
+    
     
     def delete(self, id_solicitacao, email):
         try:
@@ -117,7 +122,7 @@ class StatusAprovacao(Resource):
                 s = smtplib.SMTP('smtp.gmail.com: 587')
                 s.starttls()
                 s.login(msg['From'], password)
-                #s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
+                s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
                 print("Email enviado com sucesso!!")
 
                 db.session.delete(solicitacao)
@@ -129,3 +134,20 @@ class StatusAprovacao(Resource):
 
         except Exception as e:
             return jsonify({'error': str(e)}), 500
+    
+class StatusAprovado(Resource):
+    def delete(self, email):
+        try:
+            solicitacao = SolicitarParceria.query.filter_by(email=email).first()
+            print("solicitacao", solicitacao)
+            
+            if solicitacao:
+                db.session.delete(solicitacao)
+                db.session.commit()
+                
+                return 204
+            else:
+                return 404
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    

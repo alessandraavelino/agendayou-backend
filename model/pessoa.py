@@ -24,9 +24,9 @@ class Pessoa(db.Model):
     nome = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
     senha = db.Column(db.String(256), nullable=False)
-    dt_nasc = db.Column(db.String(10), nullable=False)
-    cpf = db.Column(db.String(14), nullable=False, unique=True)
-    telefone = db.Column(db.String(10), nullable=False)
+    dt_nasc = db.Column(db.String(10), nullable=True)
+    cpf = db.Column(db.String(14), nullable=True, unique=True)
+    telefone = db.Column(db.String(10), nullable=True)
 
     # Relacionamento com Endereço
     endereco = db.relationship("Endereco", uselist=False)

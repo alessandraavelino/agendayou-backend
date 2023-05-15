@@ -7,9 +7,11 @@ from model.error import Error, error_campos
 
 parser = reqparse.RequestParser()
 parser.add_argument('tipo_servico', required=True)
+parser.add_argument('nome_parceiro', required=True)
 parser.add_argument('profissional', required=True)
 parser.add_argument('valor', required=True)
 parser.add_argument('horario', required=True)
+parser.add_argument('categoria', required=True)
 '''
   Classe Servico.
 '''
@@ -28,12 +30,14 @@ class ServicoResource(Resource):
         try:
             #JSON
             args = parser.parse_args()
+            nome_parceiro = args['nome_parceiro']
             tipo_servico = args['tipo_servico']
             profissional = args['profissional']
             valor = args['valor']
             horario = args['horario']
+            categoria = args['categoria']
 
-            servico = Servico(tipo_servico, profissional, valor, horario)
+            servico = Servico(nome_parceiro, tipo_servico, profissional, valor, horario, categoria)
 
             db.session.add(servico)
             db.session.commit()
