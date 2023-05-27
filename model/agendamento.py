@@ -1,13 +1,17 @@
 from helpers.database import db
 from flask_restful import fields
-from model.servico import servico_fields, servico_agendamento_fields
+from datetime import datetime
+
 agendamento_fields = {
 
     'id_agendamento': fields.Integer(attribute='id_agendamento'),
     'nome': fields.String(attribute='nome'),
-    'email': fields.String(attribute='email'),
     'telefone': fields.String(attribute='telefone'),
-    'servico': fields.Nested(servico_agendamento_fields)
+    'profissional': fields.String(attribute='profissional'),
+    'horario': fields.String(attribute='horario'),
+    'servico': fields.String(attribute='servico'),
+    'parceiro_id':  fields.Integer(attribute='parceiro_id')
+    
 }
 
 class Agendamento(db.Model):
@@ -16,17 +20,25 @@ class Agendamento(db.Model):
     
     id_agendamento = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
     telefone = db.Column(db.String(10), nullable=False)
-    
-    servico = db.relationship("Servico", uselist=False)
-    servico_id = db.Column(db.Integer, db.ForeignKey("tb_servico.id_servico"))
+    profissional = db.Column(db.String(50), nullable=False)
+    horario = db.Column(db.DateTime(50), default=datetime.utcnow)
+    servico = db.Column(db.String(50), nullable=False)
 
-    def __init__(self, nome, email, telefone, servico):
+    parceiro_id = db.Column(db.Integer, db.ForeignKey("tb_parceiro.id_parceiro"))
+
+    def __init__(self, nome, telefone, profissional, horario, servico, parceiro_id):
         self.nome = nome
-        self.email = email
         self.telefone = telefone
+        self.profissional = profissional
+        self.set_horario(horario)
         self.servico = servico
+        self.parceiro_id = parceiro_id
+    
+    def set_horario(self, horario):
+        data_hora = horario
+        format_hora = datetime.strptime(data_hora, '%Y-%m-%d %H:%M')
+        self.horario = format_hora
 
     def __repr__(self):
-        return f'Agendamento(Nome={self.nome}, E-mail={self.email}, Telefone={self.telefone}, Servico={self.servico})'
+        return f'Agendamento(Nome={self.nome}, Telefone={self.telefone}, Horário={self.horario}, Servico={self.servico})'

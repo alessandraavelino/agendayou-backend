@@ -10,17 +10,11 @@ servico_fields = {
     'tipo_servico': fields.String(attribute='tipo_servico'),
     'profissional': fields.String(attribute='profissional'),
     'valor': fields.String(attribute='valor'),
-    'horario': fields.String(attribute='horario'),
-    'categoria': fields.String(attribute='categoria')
-
-}
-
-servico_agendamento_fields = {
-
-    'id_servico': fields.Integer(attribute='id_servico'),
-    'tipo_servico': fields.String(attribute='tipo_servico'),
-    'profissional': fields.String(attribute='profissional'),
-    'horario': fields.String(attribute='horario')
+    'horario1': fields.String(attribute='horario1'),
+    'horario2': fields.String(attribute='horario2'),
+    'horario3': fields.String(attribute='horario3'),
+    'categoria': fields.String(attribute='categoria'),
+    'parceiro_id':  fields.Integer(attribute='parceiro_id')
 
 }
 
@@ -33,15 +27,18 @@ class Servico(db.Model):
     tipo_servico = db.Column(db.String(50), nullable=False)
     profissional = db.Column(db.String(50), nullable=False)
     valor = db.Column(db.String(50), nullable=False)
-    horario = db.Column(db.DateTime(50), nullable=False, default=datetime.utcnow)
+    horario1 = db.Column(db.DateTime(50), default=datetime.utcnow)
+    horario2 = db.Column(db.DateTime(50), default=datetime.utcnow)
+    horario3 = db.Column(db.DateTime(50), default=datetime.utcnow)
     categoria = db.Column(db.String(50), nullable=False)
-    
+
     # Relacionamento com Parceiro
-    parceiro = db.relationship("Parceiro", uselist=False)
+    parceiro = db.relationship("Parceiro", uselist=False, backref="servicos")
     categoria_id = db.Column(db.Integer, db.ForeignKey("tb_categoria.id_categoria"))
     parceiro_id = db.Column(db.Integer, db.ForeignKey("tb_parceiro.id_parceiro"))
+    
  
-    def __init__(self, nome_parceiro, tipo_servico, profissional, valor, horario1, horario2, horario3, categoria):
+    def __init__(self, nome_parceiro, tipo_servico, profissional, valor, horario1, horario2, horario3, categoria, parceiro_id):
         self.nome_parceiro = nome_parceiro
         self.tipo_servico = tipo_servico
         self.profissional = profissional
@@ -50,11 +47,12 @@ class Servico(db.Model):
         self.set_horario(horario1)
         self.set_horario(horario2)
         self.set_horario(horario3)
+        self.parceiro_id = parceiro_id
 
     def set_horario(self, horario):
         data_hora = horario
-        format_hora = datetime.strptime(data_hora, '%Y-%m-%d %H:%M:%S')
+        format_hora = datetime.strptime(data_hora, '%Y-%m-%d %H:%M')
         self.horario = format_hora
 
     def __repr__(self):
-        return f'Serviço("Parceiro={self.parceiro}, Tipo de Serviço={self.tipo_servico}, Profissional={self.profissional}, Valor={self.valor}, Horário={self.horario})'
+        return f'Serviço("Parceiro={self.parceiro}, Tipo de Serviço={self.tipo_servico}, Profissional={self.profissional}, Valor={self.valor}, Horário 1={self.horario1}, Horário 2={self.horario2}, Horário 3={self.horario3})'

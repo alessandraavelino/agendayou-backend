@@ -10,8 +10,12 @@ parser.add_argument('tipo_servico', required=True)
 parser.add_argument('nome_parceiro', required=True)
 parser.add_argument('profissional', required=True)
 parser.add_argument('valor', required=True)
-parser.add_argument('horario', required=True)
+parser.add_argument('horario1', required=True)
+parser.add_argument('horario2')
+parser.add_argument('horario3')
 parser.add_argument('categoria', required=True)
+parser.add_argument('parceiro_id', type=int, required=True)
+
 '''
   Classe Servico.
 '''
@@ -34,10 +38,13 @@ class ServicoResource(Resource):
             tipo_servico = args['tipo_servico']
             profissional = args['profissional']
             valor = args['valor']
-            horario = args['horario']
+            horario1 = args['horario1']
+            horario2 = args['horario2']
+            horario3 = args['horario3']
             categoria = args['categoria']
+            parceiro_id = args['parceiro_id']
 
-            servico = Servico(nome_parceiro, tipo_servico, profissional, valor, horario, categoria)
+            servico = Servico(nome_parceiro, tipo_servico, profissional, valor, horario1, horario2, horario3, categoria, parceiro_id)
 
             db.session.add(servico)
             db.session.commit()
@@ -49,3 +56,20 @@ class ServicoResource(Resource):
             return marshal(erro, error_campos), 500
         
         return 204
+    
+class ServicoResourceById(Resource):
+
+    @marshal_with(servico_fields)
+    def get(self, parceiro_id):
+        current_app.logger.info(f"Get - Servico by ID: {parceiro_id}")
+        servico = Servico.query \
+            .filter_by(parceiro_id=parceiro_id) \
+            .first()
+
+    
+        if servico is None:
+            # O serviço não foi encontrado
+            erro = Error(404, f"Servico com ID {parceiro_id} não encontrado", "ServicoNotFound")
+            return marshal(erro, error_campos), 404
+        
+        return marshal(servico, servico_fields), 200
