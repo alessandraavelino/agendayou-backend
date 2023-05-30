@@ -2,13 +2,16 @@ from datetime import datetime
 
 from helpers.database import db
 from model.pessoa import Pessoa, pessoa_fields
+from model.parceiro import Parceiro, parceiro_fields
+from model.administrador import Administrador, administrador_fields
 from flask_restful import fields
 
 login_campos = {
     'id': fields.Integer(attribute='id'),
     'pessoa': fields.Nested(pessoa_fields),
     'datahora': fields.String(attribute='datahora'),
-    'key': fields.String(attribute='key')
+    'key': fields.String(attribute='key'),
+    'parceiro': fields.Nested(parceiro_fields),
 }
 
 
@@ -25,11 +28,15 @@ class Login(db.Model):
 
     # Relacionamento com Pessoa
     pessoa = db.relationship("Pessoa", uselist=False)
+    parceiro = db.relationship("Parceiro", uselist=False)
+    #administrador = db.relationship("Administrador", uselist=False)
 
-    def __init__(self, pessoa: Pessoa, datahora, key):
+    def __init__(self, pessoa: Pessoa, datahora, key, parceiro: Parceiro):
         self.datahora = datahora
         self.pessoa = pessoa
         self.key = key
+        self.parceiro = parceiro
+        #self.administrador = administrador
 
     def __repr__(self):
         return f'Login(Horário={self.datahora})'

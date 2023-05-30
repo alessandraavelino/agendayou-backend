@@ -14,7 +14,7 @@ from resources.login import LoginResource
 from resources.parceiro import ParceiroResource
 from resources.profissional import ProfissionalResource, ProfissionalUpdate
 from resources.agendamento import AgendamentoResource
-from resources.servico import ServicoResource, ServicoResourceById
+from resources.servico import ServicoResource, ServicoResourceById, ServicoUpdateById
 from resources.cliente import ClienteResource
 from resources.solicitarParceria import StatusAprovado
 from resources.solicitarParceria import SolicParceriaResource
@@ -46,7 +46,7 @@ endereco = Endereco("58255000", "Paraíba", "Belém", "Centro", "Rua São Joaqui
 
 solicitacao = SolicitarParceria("Ale", "ale@mail.com", "2132132130", 5, "aprove-me", None, "teste")
 print(solicitacao)
-servico = Servico("Teste", "Fisioterapia", "Marcos", "65,OO", "2023-03-02 23:43", "2023-03-02 23:43", "2023-03-02 23:43", "Beleza",  1)
+servico = Servico("Teste", "Fisioterapia", "Marcos", "65,OO", "2023-03-02 23:43", "Beleza",  1)
 print(servico)
 
 profissional = Profissional("Maria", "Enfermeira", "2.000")
@@ -69,10 +69,11 @@ api.add_resource(ProfissionalUpdate, '/profissional/<int:id_profissional>')
 api.add_resource(AgendamentoResource, '/agendamentos')
 api.add_resource(ServicoResource, '/servicos')
 api.add_resource(ServicoResourceById, '/servicos/<int:parceiro_id>')
-
+api.add_resource(ServicoUpdateById, '/servicos/<int:id_servico>')
 api.add_resource(ClienteResource, '/clientes')
 
 api.add_resource(CategoriaResource, '/categorias')
+
 
 api.add_resource(AdministradorResource, '/administrador')
 api.add_resource(SolicParceriaResource, '/solicitarparceria')

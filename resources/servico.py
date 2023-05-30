@@ -4,15 +4,13 @@ from helpers.database import db
 from model.servico import Servico, servico_fields
 from model.cliente import Cliente
 from model.error import Error, error_campos
-
+from flask import jsonify
 parser = reqparse.RequestParser()
 parser.add_argument('tipo_servico', required=True)
 parser.add_argument('nome_parceiro', required=True)
 parser.add_argument('profissional', required=True)
 parser.add_argument('valor', required=True)
-parser.add_argument('horario1', required=True)
-parser.add_argument('horario2')
-parser.add_argument('horario3')
+parser.add_argument('horario', required=True)
 parser.add_argument('categoria', required=True)
 parser.add_argument('parceiro_id', type=int, required=True)
 
@@ -38,13 +36,11 @@ class ServicoResource(Resource):
             tipo_servico = args['tipo_servico']
             profissional = args['profissional']
             valor = args['valor']
-            horario1 = args['horario1']
-            horario2 = args['horario2']
-            horario3 = args['horario3']
+            horario = args['horario']
             categoria = args['categoria']
             parceiro_id = args['parceiro_id']
 
-            servico = Servico(nome_parceiro, tipo_servico, profissional, valor, horario1, horario2, horario3, categoria, parceiro_id)
+            servico = Servico(nome_parceiro, tipo_servico, profissional, valor, horario, categoria, parceiro_id)
 
             db.session.add(servico)
             db.session.commit()
@@ -64,7 +60,7 @@ class ServicoResourceById(Resource):
         current_app.logger.info(f"Get - Servico by ID: {parceiro_id}")
         servico = Servico.query \
             .filter_by(parceiro_id=parceiro_id) \
-            .first()
+            .all()
 
     
         if servico is None:
@@ -73,3 +69,52 @@ class ServicoResourceById(Resource):
             return marshal(erro, error_campos), 404
         
         return marshal(servico, servico_fields), 200
+    
+class ServicoUpdateById(Resource):
+    def put(self, id_servico):
+        current_app.logger.info("Put - Serviço")
+        try:
+         # Parser JSON
+            args = parser.parse_args()
+            current_app.logger.info("Serviço: %s:" % args)
+            #json
+
+            tipo_servico = args['tipo_servico']
+            profissional = args['profissional']
+            horario = args['horario']
+            valor = args['valor']
+
+            
+            servico =Servico.query \
+                .filter_by(id_servico=id_servico) \
+                .first()
+            
+            servico.tipo_servico = tipo_servico
+            servico.profissional = profissional
+            servico.valor = valor
+            servico.horario = horario
+            
+            db.session.commit()
+            
+        except exc.SQLAlchemyError:
+            current_app.logger.error("Exceção")
+
+        return 204
+    
+    def delete(self, id_servico):
+        try:
+            servico = Servico.query.filter_by(id_servico=id_servico).first()
+            
+            if servico:
+
+                db.session.delete(servico)
+                db.session.commit()
+                
+                return 204
+            else:
+                return 404
+
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+

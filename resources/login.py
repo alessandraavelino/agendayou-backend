@@ -7,7 +7,7 @@ from helpers.database import db
 from model.pessoa import Pessoa
 from model.login import Login, login_campos
 from model.error import Error, error_campos
-
+from model.parceiro import Parceiro
 from werkzeug.security import check_password_hash
 import re
 
@@ -28,6 +28,8 @@ class LoginResource(Resource):
             senha = args['senha']
 
             pessoa = Pessoa.query.filter_by(email=email).first()
+            parceiro = Parceiro.query.filter_by(email=email).first()
+
             
 
             
@@ -36,7 +38,7 @@ class LoginResource(Resource):
                 hash = hashlib.sha1()
                 hash.update(str(dataHoraLogin).encode("utf-8"))
                 key = hash.hexdigest()
-                login = Login(pessoa, dataHoraLogin, key)
+                login = Login(pessoa, dataHoraLogin, key, parceiro)
                 
 
                 db.session.add(login)
