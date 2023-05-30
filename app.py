@@ -46,8 +46,8 @@ endereco = Endereco("58255000", "Paraíba", "Belém", "Centro", "Rua São Joaqui
 
 solicitacao = SolicitarParceria("Ale", "ale@mail.com", "2132132130", 5, "aprove-me", None, "teste")
 print(solicitacao)
-servico = Servico("Teste", "Fisioterapia", "Marcos", "65,OO", "2023-03-02 23:43", "Beleza",  1)
-print(servico)
+#servico = Servico("Teste", "Fisioterapia", "Marcos", "65,OO", "2023-03-02 23:43", "Beleza",  1)
+#print(servico)
 
 profissional = Profissional("Maria", "Enfermeira", "2.000")
 print(profissional)

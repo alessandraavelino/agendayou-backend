@@ -45,6 +45,7 @@ class ServicoResource(Resource):
             db.session.add(servico)
             db.session.commit()
             
+            
         except exc.SQLAlchemyError as err:
             current_app.logger.error(err)
             erro = Error(1, "Erro ao adicionar no banco de dados, consulte o adminstrador",
@@ -62,13 +63,13 @@ class ServicoResourceById(Resource):
             .filter_by(parceiro_id=parceiro_id) \
             .all()
 
-    
         if servico is None:
             # O serviço não foi encontrado
             erro = Error(404, f"Servico com ID {parceiro_id} não encontrado", "ServicoNotFound")
             return marshal(erro, error_campos), 404
-        
-        return marshal(servico, servico_fields), 200
+
+        return servico, 200
+
     
 class ServicoUpdateById(Resource):
     def put(self, id_servico):
