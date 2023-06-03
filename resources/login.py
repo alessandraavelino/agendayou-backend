@@ -8,6 +8,7 @@ from model.pessoa import Pessoa
 from model.login import Login, login_campos
 from model.error import Error, error_campos
 from model.parceiro import Parceiro
+from flask import jsonify
 from werkzeug.security import check_password_hash
 import re
 
@@ -20,18 +21,13 @@ class LoginResource(Resource):
 
     def post(self):
         current_app.logger.info("Post - Login")
-
         try:
-            
             args = parser.parse_args()
             email = args['email']
             senha = args['senha']
 
             pessoa = Pessoa.query.filter_by(email=email).first()
             parceiro = Parceiro.query.filter_by(email=email).first()
-
-            
-
             
             if pessoa and check_password_hash(pessoa.senha, senha):
                 dataHoraLogin = datetime.now()
@@ -40,7 +36,6 @@ class LoginResource(Resource):
                 key = hash.hexdigest()
                 login = Login(pessoa, dataHoraLogin, key, parceiro)
                 
-
                 db.session.add(login)
                 db.session.commit()
 
@@ -55,3 +50,20 @@ class LoginResource(Resource):
             erro = Error(1, "Erro ao adicionar no banco de dados, consulte o adminstrador",
                          err.__cause__())
             return marshal(erro, error_campos), 500
+        
+class LogoutResource(Resource):
+    def delete(self, key):
+        try:
+            login = Login.query.filter_by(key=key).first()
+            print("solicitacao", login)
+            
+            if login:
+                db.session.delete(login)
+                db.session.commit()
+                
+                return 204
+            else:
+                return 404
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+

@@ -8,7 +8,7 @@ servico_fields = {
     'nome_parceiro': fields.String(attribute='nome_parceiro'),
     'tipo_servico': fields.String(attribute='tipo_servico'),
     'profissional': fields.String(attribute='profissional'),
-    'valor': fields.String(attribute='valor'),
+    'valor': fields.Float(attribute='valor'),
     'horario': fields.String(attribute=lambda x: x.horario.strftime('%d/%m/%Y %H:%M')),
     'categoria': fields.String(attribute='categoria'),
     'parceiro_id': fields.Integer(attribute='parceiro_id')
@@ -21,7 +21,7 @@ class Servico(db.Model):
     nome_parceiro = db.Column(db.String(50), nullable=False)
     tipo_servico = db.Column(db.String(50), nullable=False)
     profissional = db.Column(db.String(50), nullable=False)
-    valor = db.Column(db.String(50), nullable=False)
+    valor = db.Column(db.Float(), nullable=False)
     horario = db.Column(db.DateTime, default=datetime.now)
     categoria = db.Column(db.String(50), nullable=False)
 

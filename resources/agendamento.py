@@ -4,6 +4,7 @@ from helpers.database import db
 from model.agendamento import Agendamento, agendamento_fields
 from model.servico import Servico
 from model.cliente import Cliente
+from flask import jsonify
 from model.error import Error, error_campos
 
 parser = reqparse.RequestParser()
@@ -70,3 +71,23 @@ class AgendamentosParceiroResource(Resource):
             return marshal(erro, error_campos), 404
 
         return agendamento, 200
+    
+class AgendamentosByIdResource(Resource):
+    def delete(self, id_agendamento):
+        try:
+            agendamento = Agendamento.query.filter_by(id_agendamento=id_agendamento).first()
+            
+            if agendamento:
+
+                db.session.delete(agendamento)
+                db.session.commit()
+                
+                return 204
+            else:
+                return 404
+
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+    
+    

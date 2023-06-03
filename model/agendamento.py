@@ -9,6 +9,7 @@ agendamento_fields = {
     'tipo_servico': fields.String(attribute='tipo_servico'),
     'profissional': fields.String(attribute='profissional'),
     'horario': fields.String(attribute=lambda x: x.horario.strftime('%d/%m/%Y %H:%M')),
+    'valor': fields.Float(attribute='valor'),
     'parceiro_id': fields.Integer(attribute='parceiro_id'),
     'pessoa_id': fields.Integer(attribute='pessoa_id'),
 }
@@ -22,7 +23,7 @@ class Agendamento(db.Model):
     telefone = db.Column(db.String(10), nullable=False)
     tipo_servico = db.Column(db.String(50), nullable=False)
     profissional = db.Column(db.String(50), nullable=False)
-    valor = db.Column(db.String(50), nullable=False)
+    valor = db.Column(db.Float(), nullable=False)
     horario = db.Column(db.DateTime, default=datetime.now)
 
     parceiro_id = db.Column(db.Integer, db.ForeignKey("tb_parceiro.id_parceiro"))
