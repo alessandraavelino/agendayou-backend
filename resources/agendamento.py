@@ -7,10 +7,14 @@ from model.cliente import Cliente
 from model.error import Error, error_campos
 
 parser = reqparse.RequestParser()
-parser.add_argument('nome', required=True)
-parser.add_argument('email', required=True)
+parser.add_argument('nome_cliente', required=True)
 parser.add_argument('telefone', required=True)
-parser.add_argument('servico', type=dict, required=True)
+parser.add_argument('tipo_servico', required=True)
+parser.add_argument('profissional', required=True)
+parser.add_argument('horario', required=True)
+parser.add_argument('valor', required=True)
+parser.add_argument('parceiro_id', type=int, required=True)
+parser.add_argument('pessoa_id', type=int, required=True)
 
 '''
   Classe Agendamentos.
@@ -28,21 +32,18 @@ class AgendamentoResource(Resource):
     def post(self):
         current_app.logger.info("Post - Agendamentos")
         try:
-            #JSON
+            # JSON
             args = parser.parse_args()
-            nome = args['nome']
-            email = args['email']
+            nome_cliente = args['nome_cliente']
             telefone = args['telefone']
-
-            servicoArgs = args['servico']
-            tipo_servico = servicoArgs['tipo_servico']
-            profissional = servicoArgs['profissional']
-            valor = servicoArgs['valor']
-            horario = servicoArgs['horario']
-
-            servico = Servico(tipo_servico, profissional, valor, horario)
-
-            agendamento = Agendamento(nome=nome, email=email, telefone=telefone, servico=servico)
+            tipo_servico = args['tipo_servico']
+            profissional = args['profissional']
+            horario = args['horario']
+            valor = args['valor']
+            parceiro_id = args['parceiro_id']
+            pessoa_id = args['pessoa_id']
+            
+            agendamento = Agendamento(nome_cliente, telefone, tipo_servico, profissional, horario, valor, parceiro_id, pessoa_id)
             db.session.add(agendamento)
             db.session.commit()
             
@@ -53,3 +54,19 @@ class AgendamentoResource(Resource):
             return marshal(erro, error_campos), 500
         
         return 204
+    
+class AgendamentosParceiroResource(Resource):
+
+    @marshal_with(agendamento_fields)
+    def get(self, parceiro_id):
+        current_app.logger.info(f"Get - Servico by ID: {parceiro_id}")
+        agendamento = Agendamento.query \
+            .filter_by(parceiro_id=parceiro_id) \
+            .all()
+
+        if agendamento is None:
+            # O serviço não foi encontrado
+            erro = Error(404, f"Servico com ID {parceiro_id} não encontrado", "ServicoNotFound")
+            return marshal(erro, error_campos), 404
+
+        return agendamento, 200

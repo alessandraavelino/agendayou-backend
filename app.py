@@ -13,7 +13,7 @@ from model.solicitacoesParceria import SolicitarParceria
 from resources.login import LoginResource
 from resources.parceiro import ParceiroResource
 from resources.profissional import ProfissionalResource, ProfissionalUpdate
-from resources.agendamento import AgendamentoResource
+from resources.agendamento import AgendamentoResource, AgendamentosParceiroResource
 from resources.servico import ServicoResource, ServicoResourceById, ServicoUpdateById
 from resources.cliente import ClienteResource
 from resources.solicitarParceria import StatusAprovado
@@ -66,7 +66,9 @@ api.add_resource(LoginResource, '/login')
 api.add_resource(ProfissionalResource, '/profissional')
 api.add_resource(ProfissionalUpdate, '/profissional/<int:id_profissional>')
 
-api.add_resource(AgendamentoResource, '/agendamentos')
+api.add_resource(AgendamentoResource, "/agendamentos")
+api.add_resource(AgendamentosParceiroResource, "/agendamentos/<int:parceiro_id>")
+
 api.add_resource(ServicoResource, '/servicos')
 api.add_resource(ServicoResourceById, '/servicos/<int:parceiro_id>')
 api.add_resource(ServicoUpdateById, '/servicos/<int:id_servico>')
