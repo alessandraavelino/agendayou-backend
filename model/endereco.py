@@ -17,7 +17,7 @@ class Endereco(db.Model):
     __tablename__ = "tb_endereco"
 
     id_endereco = db.Column(db.Integer, primary_key=True)
-    cep = db.Column(db.String(8), nullable=False)
+    cep = db.Column(db.String(20), nullable=False)
     estado = db.Column(db.String(100), nullable=False)
     cidade = db.Column(db.String(100), nullable=False)
     bairro = db.Column(db.String(100), nullable=False)
