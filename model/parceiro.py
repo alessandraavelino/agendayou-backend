@@ -30,7 +30,7 @@ class Parceiro(Pessoa, db.Model):
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
     tipo_pessoa = db.Column('tipo_pessoa', String(50), default='parceiro')
-
+    agendamentos = db.relationship("Agendamento", cascade="all, delete")
     def __init__(self, nome, email, senha, nome_fantasia, categoria, dt_nasc=None, cpf=None, telefone=None, endereco=None):
         super().__init__(nome, email, senha, dt_nasc, cpf, telefone, endereco)
         self.nome_fantasia = nome_fantasia

@@ -19,7 +19,7 @@ from resources.cliente import ClienteResource
 from resources.solicitarParceria import StatusAprovado
 from resources.solicitarParceria import SolicParceriaResource
 from resources.solicitarParceria import StatusAprovacao
-from resources.faturamento import FaturamentoResource
+from resources.faturamento import FaturamentoResource, FaturamentoTotalResource
 from resources.administrador import AdministradorResource
 from resources.categoria import CategoriaResource
 # CORS
@@ -27,7 +27,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:1243@localhost:5432/agendayou"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:123456@localhost:5432/agendayou"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -60,8 +60,10 @@ print(cliente)
 
 
 # Resources
-api.add_resource(ParceiroResource, '/parceiros')
 api.add_resource(DeletarParceiro, '/parceiros/<int:id_parceiro>')
+api.add_resource(ParceiroResource, '/parceiros')
+api.add_resource(FaturamentoTotalResource, '/faturamento/<int:id_parceiro>')
+
 
 api.add_resource(LoginResource, '/login')
 api.add_resource(LogoutResource, '/logout/<key>')
