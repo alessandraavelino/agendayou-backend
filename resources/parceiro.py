@@ -5,6 +5,7 @@ from model.parceiro import Parceiro, parceiro_fields
 from model.endereco import Endereco
 from model.error import Error, error_campos
 from email.mime.text import MIMEText
+from flask import jsonify, abort
 import smtplib
 parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="Email é um campo obrigatório.")
@@ -88,3 +89,21 @@ class ParceiroResource(Resource):
             return marshal(erro, error_campos), 500
         
         return 204
+    
+class DeletarParceiro(Resource):
+    @marshal_with(parceiro_fields)
+    def delete(self, id_parceiro):
+        try:
+            parceiro = Parceiro.query.filter_by(id_parceiro=id_parceiro).first()
+
+            if parceiro:
+                
+                db.session.delete(parceiro)
+                db.session.commit()
+
+                return 204
+            else:
+                abort(404)  # Aborta a solicitação com o código de status 404
+
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500

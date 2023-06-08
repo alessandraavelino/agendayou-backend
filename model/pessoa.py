@@ -35,6 +35,8 @@ class Pessoa(db.Model):
     tipo_pessoa = db.Column('tipo_pessoa', String(50))
     __mapper_args__ = {'polymorphic_on': tipo_pessoa}
 
+    agendamentos = db.relationship("Agendamento", cascade="all, delete")
+
 
     def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco):
         self.nome = nome

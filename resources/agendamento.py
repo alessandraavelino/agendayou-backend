@@ -2,6 +2,9 @@ from flask_restful import Resource, reqparse, current_app, marshal, marshal_with
 from sqlalchemy import exc
 from helpers.database import db
 from model.agendamento import Agendamento, agendamento_fields
+from model.faturamento import Faturamento
+from model.parceiro import Parceiro
+from model.pessoa import Pessoa 
 from model.servico import Servico
 from model.cliente import Cliente
 from flask import jsonify
@@ -71,23 +74,34 @@ class AgendamentosParceiroResource(Resource):
             return marshal(erro, error_campos), 404
 
         return agendamento, 200
-    
+
+
+from flask import jsonify, make_response
+
 class AgendamentosByIdResource(Resource):
     def delete(self, id_agendamento):
         try:
-            agendamento = Agendamento.query.filter_by(id_agendamento=id_agendamento).first()
-            
+            agendamento = Agendamento.query.get(id_agendamento)
+
             if agendamento:
+                # Remover as referências na tabela tb_faturamento
+
+                # Remover as referências na tabela tb_parceiro
+                parceiro = Parceiro.query.get(agendamento.parceiro_id)
+                if parceiro and agendamento in parceiro.agendamentos:
+                    parceiro.agendamentos.remove(agendamento)
+
+                # Remover as referências na tabela tb_pessoa
+                pessoa = Pessoa.query.get(agendamento.pessoa_id)
+                if pessoa and agendamento in pessoa.agendamentos:
+                    pessoa.agendamentos.remove(agendamento)
 
                 db.session.delete(agendamento)
                 db.session.commit()
-                
-                return 204
+
+                return make_response(jsonify({'message': 'Agendamento removido com sucesso'}), 204)
             else:
-                return 404
+                return make_response(jsonify({'error': 'Agendamento não encontrado'}), 404)
 
         except Exception as e:
-            return jsonify({'error': str(e)}), 500
-
-    
-    
+            return make_response(jsonify({'error': str(e)}), 500)

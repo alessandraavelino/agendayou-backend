@@ -11,7 +11,7 @@ from model.cliente import Cliente
 from model.agendamento import Agendamento
 from model.solicitacoesParceria import SolicitarParceria
 from resources.login import LoginResource, LogoutResource
-from resources.parceiro import ParceiroResource
+from resources.parceiro import ParceiroResource, DeletarParceiro
 from resources.profissional import ProfissionalResource, ProfissionalUpdate
 from resources.agendamento import AgendamentoResource, AgendamentosParceiroResource, AgendamentosByIdResource
 from resources.servico import ServicoResource, ServicoResourceById, ServicoUpdateById
@@ -19,7 +19,7 @@ from resources.cliente import ClienteResource
 from resources.solicitarParceria import StatusAprovado
 from resources.solicitarParceria import SolicParceriaResource
 from resources.solicitarParceria import StatusAprovacao
-from resources.faturamento import FaturamentoResource
+from resources.faturamento import FaturamentoResource, FaturamentoTotalResource
 from resources.administrador import AdministradorResource
 from resources.categoria import CategoriaResource
 # CORS
@@ -60,7 +60,11 @@ print(cliente)
 
 
 # Resources
+api.add_resource(DeletarParceiro, '/parceiros/<int:id_parceiro>')
 api.add_resource(ParceiroResource, '/parceiros')
+api.add_resource(FaturamentoTotalResource, '/faturamento/<int:id_parceiro>')
+
+
 api.add_resource(LoginResource, '/login')
 api.add_resource(LogoutResource, '/logout/<key>')
 
