@@ -78,3 +78,18 @@ class FaturamentoTotalResource(Resource):
 
         return {'valor': valor, 'presente': presente, 'ausente': ausente}, 200
     
+class FaturamentoParceiroResource(Resource):
+
+    @marshal_with(faturamento_fields)
+    def get(self, parceiro_id):
+        current_app.logger.info(f"Get - Servico by ID: {parceiro_id}")
+        faturamento = Faturamento.query \
+            .filter_by(parceiro_id=parceiro_id) \
+            .all()
+
+        if faturamento is None:
+            # O serviço não foi encontrado
+            erro = Error(404, f"Servico com ID {parceiro_id} não encontrado", "ServicoNotFound")
+            return marshal(erro, error_campos), 404
+
+        return faturamento, 200

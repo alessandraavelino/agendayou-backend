@@ -19,7 +19,7 @@ from resources.cliente import ClienteResource
 from resources.solicitarParceria import StatusAprovado
 from resources.solicitarParceria import SolicParceriaResource
 from resources.solicitarParceria import StatusAprovacao
-from resources.faturamento import FaturamentoResource, FaturamentoTotalResource
+from resources.faturamento import FaturamentoResource, FaturamentoTotalResource, FaturamentoParceiroResource
 from resources.administrador import AdministradorResource
 from resources.categoria import CategoriaResource
 # CORS
@@ -63,6 +63,8 @@ print(cliente)
 api.add_resource(DeletarParceiro, '/parceiros/<int:id_parceiro>')
 api.add_resource(ParceiroResource, '/parceiros')
 api.add_resource(FaturamentoTotalResource, '/faturamento/<int:id_parceiro>')
+api.add_resource(FaturamentoParceiroResource, '/faturamentos/<int:parceiro_id>')
+
 
 
 api.add_resource(LoginResource, '/login')
@@ -83,6 +85,7 @@ api.add_resource(ClienteResource, '/clientes')
 api.add_resource(CategoriaResource, '/categorias')
 
 api.add_resource(FaturamentoResource, '/faturamentos')
+
 
 api.add_resource(AdministradorResource, '/administrador')
 api.add_resource(SolicParceriaResource, '/solicitarparceria')
