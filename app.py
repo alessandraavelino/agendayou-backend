@@ -10,8 +10,9 @@ from model.servico import Servico
 from model.cliente import Cliente
 from model.agendamento import Agendamento
 from model.solicitacoesParceria import SolicitarParceria
-from resources.login import LoginResource
-from resources.parceiro import ParceiroResource
+from resources.esqueciSenha import AtualizarSenhaResource, EsqueciSenha
+from resources.login import LoginResource, LogoutResource
+from resources.parceiro import DeletarParceiro, ParceiroResource
 from resources.profissional import ProfissionalResource, ProfissionalUpdate
 from resources.agendamento import AgendamentoResource, AgendamentosParceiroResource, AgendamentosByIdResource
 from resources.servico import ServicoResource, ServicoResourceById, ServicoUpdateById
