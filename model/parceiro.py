@@ -15,7 +15,8 @@ parceiro_fields = {
     'categoria': fields.String(attribute='categoria'),
     'nome_fantasia': fields.String(attribute='nome_fantasia'),
     'endereco': fields.Nested(endereco_fields, allow_null=True),
-    'tipo_pessoa': fields.String(attribute='tipo_pessoa')
+    'tipo_pessoa': fields.String(attribute='tipo_pessoa'),
+    'status': fields.Integer(attribute='status_aprovacao')
 }
 
 class Parceiro(Pessoa, db.Model):
@@ -25,16 +26,19 @@ class Parceiro(Pessoa, db.Model):
     
     id_parceiro = db.Column(db.Integer, primary_key=True)
     nome_fantasia = db.Column(db.String(50), nullable=False)
-    categoria = db.Column(db.String(50), nullable=False)
-    status_aprovacao = db.Column(db.String(10), nullable=True)
+    categoria = db.Column(db.String(50), nullable=False),
+    status_aprovacao = db.Column(db.Integer, default=0)
+
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
     tipo_pessoa = db.Column('tipo_pessoa', String(50), default='parceiro')
     agendamentos = db.relationship("Agendamento", cascade="all, delete")
+
     def __init__(self, nome, email, senha, nome_fantasia, categoria, dt_nasc=None, cpf=None, telefone=None, endereco=None):
         super().__init__(nome, email, senha, dt_nasc, cpf, telefone, endereco)
         self.nome_fantasia = nome_fantasia
         self.categoria = categoria
+        self.status_aprovacao = 0
 
 
     def __repr__(self):

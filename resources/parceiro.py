@@ -90,6 +90,9 @@ class ParceiroResource(Resource):
         
         return 204
     
+
+    
+    
 class DeletarParceiro(Resource):
     @marshal_with(parceiro_fields)
     def delete(self, id_parceiro):
@@ -107,3 +110,5 @@ class DeletarParceiro(Resource):
 
         except Exception as e:
             return jsonify({'error': str(e)}), 500
+        
+

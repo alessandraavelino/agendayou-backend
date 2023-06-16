@@ -2,6 +2,8 @@ from flask_restful import Resource, reqparse, current_app, marshal, marshal_with
 from sqlalchemy import exc
 import hashlib
 from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
 
 from helpers.database import db
 from model.pessoa import Pessoa
@@ -9,6 +11,8 @@ from model.login import Login, login_campos
 from model.error import Error, error_campos
 from model.parceiro import Parceiro
 from flask import jsonify
+from resources.utils import GerarCodigo
+
 from werkzeug.security import check_password_hash
 import re
 
@@ -49,8 +53,8 @@ class LoginResource(Resource):
             current_app.logger.error(err)
             erro = Error(1, "Erro ao adicionar no banco de dados, consulte o adminstrador",
                          err.__cause__())
-            return marshal(erro, error_campos), 500
-        
+            return marshal(erro, error_campos), 500                
+
 class LogoutResource(Resource):
     def delete(self, key):
         try:
@@ -67,3 +71,5 @@ class LogoutResource(Resource):
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
+
+        

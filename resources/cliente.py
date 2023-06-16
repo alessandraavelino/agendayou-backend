@@ -1,4 +1,4 @@
-from flask_restful import Resource, reqparse, current_app, marshal, marshal_with
+from flask_restful import Resource, reqparse, current_app, marshal, marshal_with, abort
 from sqlalchemy import exc
 from helpers.database import db
 from model.cliente import Cliente, cliente_fields
@@ -50,6 +50,11 @@ class ClienteResource(Resource):
             
     
             cliente = Cliente(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, email=email, senha=senha)
+
+            
+
+            if len(senha) < 8:
+                abort(400, message="A senha deve conter pelos menos 8 caracteres")
 
             db.session.add(cliente)
             db.session.commit()
