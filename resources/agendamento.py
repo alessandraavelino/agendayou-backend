@@ -105,3 +105,20 @@ class AgendamentosByIdResource(Resource):
 
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 500)
+
+
+class AgendamentosPessoaResource(Resource):
+
+    @marshal_with(agendamento_fields)
+    def get(self, pessoa_id):
+        current_app.logger.info(f"Get - Servico by ID: {pessoa_id}")
+        agendamento = Agendamento.query \
+            .filter_by(pessoa_id=pessoa_id) \
+            .all()
+
+        if agendamento is None:
+            # O serviço não foi encontrado
+            erro = Error(404, f"Agendamento com ID {pessoa_id} não encontrado", "AgendamentoNotFound")
+            return marshal(erro, error_campos), 404
+
+        return agendamento, 200
