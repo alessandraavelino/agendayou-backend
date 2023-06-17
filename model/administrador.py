@@ -28,7 +28,7 @@ class Administrador(Pessoa, db.Model):
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
     tipo_pessoa = db.Column('tipo_pessoa', String(50), default='admin')
     
-    def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco):
-        super().__init__(nome, email, senha, dt_nasc, cpf, telefone, endereco)
+    def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco, foto=None):
+        super().__init__(foto, nome, email, senha, dt_nasc, cpf, telefone, endereco)
     def __repr__(self):
         return f'Administrador(E-mail={self.email}, Senha={self.senha}, Nome={self.nome}, Data de Nascimento={self.dt_nasc}, CPF={self.cpf}, Telefone={self.telefone}, Endereço={self.endereco})'

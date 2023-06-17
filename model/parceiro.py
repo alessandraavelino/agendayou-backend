@@ -6,6 +6,7 @@ from model.endereco import endereco_fields
 parceiro_fields = {
 
     'id_parceiro': fields.Integer(attribute='id_parceiro'),
+    'foto': fields.String(attribute='foto'),
     'nome': fields.String(attribute='nome'),
     'email': fields.String(attribute='email'),
     'senha': fields.String(attribute='senha'),
@@ -34,8 +35,8 @@ class Parceiro(Pessoa, db.Model):
     tipo_pessoa = db.Column('tipo_pessoa', String(50), default='parceiro')
     agendamentos = db.relationship("Agendamento", cascade="all, delete")
 
-    def __init__(self, nome, email, senha, nome_fantasia, categoria, dt_nasc=None, cpf=None, telefone=None, endereco=None):
-        super().__init__(nome, email, senha, dt_nasc, cpf, telefone, endereco)
+    def __init__(self, nome, email, senha, nome_fantasia, categoria, foto=None, dt_nasc=None, cpf=None, telefone=None, endereco=None):
+        super().__init__(foto, nome, email, senha, dt_nasc, cpf, telefone, endereco)
         self.nome_fantasia = nome_fantasia
         self.categoria = categoria
         self.status_aprovacao = 0

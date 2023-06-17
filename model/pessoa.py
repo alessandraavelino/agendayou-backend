@@ -1,10 +1,12 @@
 from helpers.database import db
 from flask_restful import fields
 from sqlalchemy.types import String
+from model.endereco import endereco_fields
 from werkzeug.security import generate_password_hash
 pessoa_fields = {
 
     'id_pessoa': fields.Integer(attribute='id_pessoa'),
+    'foto': fields.String(attribute='foto'),
     'nome': fields.String(attribute='nome'),
     'email': fields.String(attribute='email'),
     'senha': fields.String(attribute='senha'),
@@ -12,6 +14,7 @@ pessoa_fields = {
     'cpf': fields.String(attribute='cpf'),
     'telefone': fields.String(attribute='telefone'),
     'tipo_pessoa': fields.String(attribute='tipo_pessoa'),
+    'endereco': fields.Nested(endereco_fields),
 
 }
 
@@ -21,6 +24,7 @@ class Pessoa(db.Model):
     __tablename__ = "tb_pessoa"
 
     id_pessoa = db.Column(db.Integer, primary_key=True)
+    foto = db.Column(db.String(1000))
     nome = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
     senha = db.Column(db.String(1000), nullable=False)
@@ -38,7 +42,8 @@ class Pessoa(db.Model):
     agendamentos = db.relationship("Agendamento", cascade="all, delete")
 
 
-    def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco):
+    def __init__(self, foto, nome, email, senha, dt_nasc, cpf, telefone, endereco):
+        self.foto = foto
         self.nome = nome
         self.email = email
         self.set_senha(senha)

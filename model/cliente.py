@@ -7,6 +7,7 @@ from model.endereco import endereco_fields
 cliente_fields = {
 
     'id_cliente': fields.Integer(attribute='id_cliente'),
+    'foto': fields.String(attribute='foto'),
     'nome': fields.String(attribute='nome'),
     'email': fields.String(attribute='email'),
     'senha': fields.String(attribute='senha'),
@@ -28,7 +29,7 @@ class Cliente(Pessoa, db.Model):
 
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
 
-    def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco):
-        super().__init__(nome, email, senha, dt_nasc, cpf, telefone, endereco)
+    def __init__(self, foto, nome, email, senha, dt_nasc, cpf, telefone, endereco):
+        super().__init__(foto, nome, email, senha, dt_nasc, cpf, telefone, endereco)
     def __repr__(self):
         return f'Cliente(E-mail={self.email}, Senha={self.senha}, Nome={self.nome}, Data de Nascimento={self.dt_nasc}, CPF={self.cpf}, Telefone={self.telefone}, Endereço={self.endereco})'

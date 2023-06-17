@@ -9,6 +9,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="Email é um campo obrigatório.")
 parser.add_argument('senha', required=True, help="Senha é campo obrigatório.")
 parser.add_argument('nome', required=True)
+parser.add_argument('foto', required=True)
 parser.add_argument('dt_nasc', required=True) #checada de data
 parser.add_argument('cpf', required=True)
 parser.add_argument('telefone', required=True)
@@ -34,6 +35,7 @@ class ClienteResource(Resource):
             args = parser.parse_args()
             email = args['email']
             senha = args['senha']
+            foto = args['foto']
             nome = args['nome']
             dt_nasc = args['dt_nasc']
             cpf = args['cpf']
@@ -49,7 +51,7 @@ class ClienteResource(Resource):
             endereco = Endereco(cep, estado, cidade, bairro, rua)
             
     
-            cliente = Cliente(nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, email=email, senha=senha)
+            cliente = Cliente(foto=foto, nome=nome, dt_nasc=dt_nasc, cpf=cpf, telefone=telefone, endereco=endereco, email=email, senha=senha)
 
             
 
