@@ -18,7 +18,7 @@ parser.add_argument('profissional', required=True)
 parser.add_argument('horario', required=True)
 parser.add_argument('valor', required=True)
 parser.add_argument('parceiro_id', type=int, required=True)
-parser.add_argument('pessoa_id', type=int, required=True)
+parser.add_argument('pessoa_id', type=int)
 
 '''
   Classe Agendamentos.

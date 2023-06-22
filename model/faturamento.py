@@ -23,7 +23,7 @@ class Faturamento(db.Model):
     id_faturamento = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.SmallInteger, nullable=False)
     nome_cliente = db.Column(db.String(50), nullable=False)
-    telefone = db.Column(db.String(10), nullable=False)
+    telefone = db.Column(db.String(15), nullable=False)
     tipo_servico = db.Column(db.String(50), nullable=False)
     profissional = db.Column(db.String(50), nullable=False)
     valor = db.Column(db.Float(), nullable=False)
