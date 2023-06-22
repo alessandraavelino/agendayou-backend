@@ -81,13 +81,13 @@ class ProfissionalResourceById(Resource):
     @marshal_with(profissional_fields)
     def get(self, parceiro_id):
         current_app.logger.info(f"Get - Parceiro by ID: {parceiro_id}")
-        parceiro = Parceiro.query \
+        profissional = Profissional.query \
             .filter_by(parceiro_id=parceiro_id) \
             .all()
 
-        if parceiro is None:
+        if profissional is None:
             # O serviço não foi encontrado
-            erro = Error(404, f"Servico com ID {parceiro_id} não encontrado", "ServicoNotFound")
+            erro = Error(404, f"Parceiro com ID {parceiro_id} não encontrado", "ParceiroNotFound")
             return marshal(erro, error_campos), 404
 
-        return parceiro, 200
+        return profissional, 200
