@@ -6,7 +6,8 @@ profissional_fields = {
     'id_profissional': fields.Integer(attribute='id_profissional'),
     'nome': fields.String(attribute='nome'),
     'cargo': fields.String(attribute='cargo'),
-    'salario': fields.String(attribute='salario')
+    'salario': fields.String(attribute='salario'),
+    'parceiro_id': fields.Integer(attribute='parceiro_id')
 }
 
 class Profissional(db.Model):
@@ -21,10 +22,11 @@ class Profissional(db.Model):
     parceiro = db.relationship("Parceiro", uselist=False)
     parceiro_id = db.Column(db.Integer, db.ForeignKey("tb_parceiro.id_parceiro"))
 
-    def __init__(self, nome, cargo, salario):
+    def __init__(self, nome, cargo, salario, parceiro_id):
         self.nome = nome
         self.cargo = cargo
         self.salario = salario
+        self.parceiro_id = parceiro_id
 
     def __repr__(self):
-        return f'Profissional(Nome={self.nome}, Cargo={self.cargo}, Salário={self.salario})'
+        return f'Profissional(Nome={self.nome}, Cargo={self.cargo}, Salário={self.salario},Parceiro_id={self.parceiro_id} )'

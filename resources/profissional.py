@@ -9,6 +9,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('nome', required=True) #c
 parser.add_argument('cargo', required=True)
 parser.add_argument('salario', required=True)
+parser.add_argument('parceiro_id', required=True, type=int)
 
 '''
   Classe Profissional (funcionário).
@@ -31,8 +32,10 @@ class ProfissionalResource(Resource):
             nome = args['nome']
             cargo = args['cargo']
             salario = args['salario']
+            parceiro_id = args['parceiro_id']
 
-            profissional = Profissional(nome, cargo, salario)
+
+            profissional = Profissional(nome, cargo, salario, parceiro_id)
             
             db.session.add(profissional)
             db.session.commit()
@@ -55,7 +58,7 @@ class ProfissionalUpdate(Resource):
             nome = args['nome']
             cargo = args['cargo']
             salario = args['salario']
-
+            parceiro_id = args['parceiro_id']
             
             profissional =Profissional.query \
                 .filter_by(id_profissional=id_profissional) \
@@ -64,6 +67,7 @@ class ProfissionalUpdate(Resource):
             profissional.nome = nome
             profissional.cargo = cargo
             profissional.salario = salario
+            profissional.parceiro_id = parceiro_id
             
             db.session.commit()
             
@@ -71,3 +75,19 @@ class ProfissionalUpdate(Resource):
             current_app.logger.error("Exceção")
 
         return 204
+    
+class ProfissionalResourceById(Resource):
+
+    @marshal_with(profissional_fields)
+    def get(self, parceiro_id):
+        current_app.logger.info(f"Get - Parceiro by ID: {parceiro_id}")
+        parceiro = Parceiro.query \
+            .filter_by(parceiro_id=parceiro_id) \
+            .all()
+
+        if parceiro is None:
+            # O serviço não foi encontrado
+            erro = Error(404, f"Servico com ID {parceiro_id} não encontrado", "ServicoNotFound")
+            return marshal(erro, error_campos), 404
+
+        return parceiro, 200

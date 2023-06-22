@@ -14,7 +14,7 @@ from resources.pessoa import PessoaResource, PessoaByIdResource
 from resources.esqueciSenha import AtualizarSenhaResource, EsqueciSenha
 from resources.login import LoginResource, LogoutResource
 from resources.parceiro import DeletarParceiro, ParceiroResource
-from resources.profissional import ProfissionalResource, ProfissionalUpdate
+from resources.profissional import ProfissionalResource, ProfissionalResourceById, ProfissionalUpdate
 from resources.agendamento import AgendamentoResource, AgendamentosParceiroResource, AgendamentosByIdResource, AgendamentosPessoaResource
 from resources.servico import ServicoResource, ServicoResourceById, ServicoUpdateById
 from resources.cliente import ClienteResource
@@ -29,7 +29,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:123456@localhost:5432/agendayou"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:1243@localhost:5432/agendayou"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -56,6 +56,7 @@ api.add_resource(AtualizarSenhaResource, '/esquecisenha/<string:email>')
 
 api.add_resource(ProfissionalResource, '/profissional')
 api.add_resource(ProfissionalUpdate, '/profissional/<int:id_profissional>')
+api.add_resource(ProfissionalResourceById, '/profissional/<int:parceiro_id>')
 
 api.add_resource(AgendamentoResource, "/agendamentos")
 api.add_resource(AgendamentosParceiroResource, "/agendamentos/<int:parceiro_id>")
