@@ -24,6 +24,7 @@ from resources.solicitarParceria import StatusAprovacao
 from resources.faturamento import FaturamentoResource, FaturamentoTotalResource, FaturamentoParceiroResource
 from resources.administrador import AdministradorResource
 from resources.categoria import CategoriaResource
+from resources.suporte import SuporteResource, SuporteResourceById
 # CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -76,6 +77,8 @@ api.add_resource(AdministradorResource, '/administrador')
 api.add_resource(SolicParceriaResource, '/solicitarparceria')
 api.add_resource(StatusAprovacao, '/solicitarparceria/<int:id_solicitacao>/<email>')
 api.add_resource(StatusAprovado, '/solicitarparceria/<email>')
+api.add_resource(SuporteResource, '/suporte')
+api.add_resource(SuporteResourceById, '/suporte/<id_suporte>')
 
 api.add_resource(StatusAtivo, '/parceiros/<int:id_parceiro>')
 

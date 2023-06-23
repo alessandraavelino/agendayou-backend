@@ -3,14 +3,14 @@ from flask_restful import fields
 from datetime import datetime
 from sqlalchemy.types import String
 
-servico_fields = {
+suporte_fields = {
     'id_suporte': fields.Integer(attribute='id_suporte'),
-    'descricao': fields.Stringr(attribute='id_suporte'),
-    'pessoa_id': fields.Stringr(attribute='pessoa_id'),
+    'descricao': fields.String(attribute='descricao'),
+    'pessoa_id': fields.String(attribute='pessoa_id'),
 }
 
-class Servico(db.Model):
-    __tablename__ = "tb_servico"
+class Suporte(db.Model):
+    __tablename__ = "tb_suporte"
 
     id_suporte = db.Column(db.Integer, primary_key=True)
     descricao = db.Column(db.String(500), nullable=False)

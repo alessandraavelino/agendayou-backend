@@ -27,7 +27,7 @@ class Parceiro(Pessoa, db.Model):
     
     id_parceiro = db.Column(db.Integer, primary_key=True)
     nome_fantasia = db.Column(db.String(50), nullable=False)
-    categoria = db.Column(db.String(50), nullable=False),
+    categoria = db.Column(db.String(50), nullable=False)
     status_aprovacao = db.Column(db.Integer, default=0)
 
 
