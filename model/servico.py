@@ -11,7 +11,8 @@ servico_fields = {
     'valor': fields.Float(attribute='valor'),
     'horario': fields.String(attribute=lambda x: x.horario.strftime('%d/%m/%Y %H:%M')),
     'categoria': fields.String(attribute='categoria'),
-    'parceiro_id': fields.Integer(attribute='parceiro_id')
+    'parceiro_id': fields.Integer(attribute='parceiro_id'),
+    'foto_parceiro': fields.String(attribute=lambda x: x.parceiro.foto)
 }
 
 class Servico(db.Model):
