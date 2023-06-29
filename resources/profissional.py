@@ -4,7 +4,7 @@ from helpers.database import db
 from model.profissional import Profissional, profissional_fields
 from model.parceiro import Parceiro
 from model.error import Error, error_campos
-
+from flask import jsonify
 parser = reqparse.RequestParser()
 parser.add_argument('nome', required=True) #c
 parser.add_argument('cargo', required=True)
@@ -76,6 +76,22 @@ class ProfissionalUpdate(Resource):
 
         return 204
     
+    def delete(self, id_profissional):
+        try:
+            profissional = Profissional.query.filter_by(id_profissional=id_profissional).first()
+            
+            if profissional:
+
+                db.session.delete(profissional)
+                db.session.commit()
+                
+                return 204
+            else:
+                return 404
+
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
 class ProfissionalResourceById(Resource):
 
     @marshal_with(profissional_fields)
@@ -91,3 +107,4 @@ class ProfissionalResourceById(Resource):
             return marshal(erro, error_campos), 404
 
         return profissional, 200
+    
