@@ -42,8 +42,8 @@ class Pessoa(db.Model):
     agendamentos = db.relationship("Agendamento", cascade="all, delete")
 
 
-    def __init__(self, foto, nome, email, senha, dt_nasc, cpf, telefone, endereco):
-        self.foto = foto
+    def __init__(self, nome, email, senha, dt_nasc, cpf, telefone, endereco, foto=None):
+        self.foto = None
         self.nome = nome
         self.email = email
         self.set_senha(senha)
