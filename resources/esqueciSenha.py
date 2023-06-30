@@ -24,6 +24,9 @@ parserAtualizar = reqparse.RequestParser()
 parserAtualizar.add_argument('codigo', required=True, help="Campo código é obrigatório.")
 parserAtualizar.add_argument('nova_senha', required=True, help="Campo nova_senha é obrigatório.")
 
+'''
+ Classe Esqueci Senha
+'''
 
 class EsqueciSenha(Resource):   
     def post(self):
@@ -46,7 +49,6 @@ class EsqueciSenha(Resource):
             s.starttls()
             s.login(msg['From'], password)
             s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
-            print("Email enviado com sucesso!!")
 
         except exc.SQLAlchemyError as err:
             current_app.logger.error(err)

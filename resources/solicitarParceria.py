@@ -98,14 +98,13 @@ class StatusAprovacao(Resource):
                 msg['Subject'] = "Feedback Parceria - AgendaYOU"
                 msg['From']  = "agendayoficial@gmail.com"
                 msg['To'] = email_destinatario
-                password = "pcgbkkrsnuotykug" #Essa senha será gerada através de uma config lá do google
+                password = "pcgbkkrsnuotykug"
                 msg.add_header("Content-Type", "text/html")
                 
                 s = smtplib.SMTP('smtp.gmail.com: 587')
                 s.starttls()
                 s.login(msg['From'], password)
                 s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
-                print("Email enviado com sucesso!!")
 
                 db.session.delete(solicitacao)
                 db.session.commit()
@@ -121,7 +120,6 @@ class StatusAprovado(Resource):
     def delete(self, email):
         try:
             solicitacao = SolicitarParceria.query.filter_by(email=email).first()
-            print("solicitacao", solicitacao)
             
             if solicitacao:
                 db.session.delete(solicitacao)
@@ -140,7 +138,6 @@ class StatusAtivo(Resource):
         try:
             parceiro = Parceiro.query.filter_by(id_parceiro=id_parceiro).first()
             status = parceiro.status_aprovacao
-            print(f"status do 0 e 1 {status}")
             if parceiro:
                 if status == "1":
                     parceiro.status_aprovacao = 0

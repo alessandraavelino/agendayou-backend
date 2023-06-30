@@ -26,17 +26,14 @@ class Login(db.Model):
 
     key = db.Column(db.String(40))
 
-    # Relacionamento com Pessoa
     pessoa = db.relationship("Pessoa", uselist=False)
     parceiro = db.relationship("Parceiro", uselist=False)
-    #administrador = db.relationship("Administrador", uselist=False)
 
     def __init__(self, pessoa: Pessoa, datahora, key, parceiro: Parceiro):
         self.datahora = datahora
         self.pessoa = pessoa
         self.key = key
         self.parceiro = parceiro
-        #self.administrador = administrador
 
     def __repr__(self):
         return f'Login(Horário={self.datahora})'

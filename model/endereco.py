@@ -23,7 +23,6 @@ class Endereco(db.Model):
     bairro = db.Column(db.String(100), nullable=False)
     rua = db.Column(db.String(100), nullable=False)
 
-    # Relacionamento com Pessoa
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
 
     def __init__(self, cep, estado, cidade, bairro, rua):

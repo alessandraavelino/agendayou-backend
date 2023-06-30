@@ -15,7 +15,6 @@ administrador_fields = {
     'cpf': fields.String(attribute='cpf'),
     'endereco': fields.Nested(endereco_fields),
     'tipo_pessoa': fields.String(attribute='tipo_pessoa')
-    
 }
 
 class Administrador(Pessoa, db.Model):

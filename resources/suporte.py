@@ -11,7 +11,7 @@ parser.add_argument('descricao', required=True)
 parser.add_argument('pessoa_id', required=True)
 
 '''
-  Classe Servico.
+  Classe Suporte.
 '''
 
 class SuporteResource(Resource):

@@ -2,24 +2,21 @@ from flask_restful import Resource, reqparse, current_app, marshal, marshal_with
 from sqlalchemy import exc
 import hashlib
 from datetime import datetime
-import smtplib
-from email.mime.text import MIMEText
-
 from helpers.database import db
 from model.pessoa import Pessoa
 from model.login import Login, login_campos
 from model.error import Error, error_campos
 from model.parceiro import Parceiro
 from flask import jsonify
-from resources.utils import GerarCodigo
-
 from werkzeug.security import check_password_hash
-import re
 
 parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="Campo e-mail é obrigatório.")
 parser.add_argument('senha', required=True, help="Campo senha é obrigatório.")
 
+'''
+ Classe login
+'''
 
 class LoginResource(Resource):
 
@@ -59,7 +56,6 @@ class LogoutResource(Resource):
     def delete(self, key):
         try:
             login = Login.query.filter_by(key=key).first()
-            print("solicitacao", login)
             
             if login:
                 db.session.delete(login)

@@ -29,7 +29,6 @@ class Faturamento(db.Model):
     valor = db.Column(db.Float(), nullable=False)
     horario = db.Column(db.DateTime, default=datetime.now)
 
-    # Relacionamento com Endereço
     parceiro_id = db.Column(db.Integer, db.ForeignKey("tb_parceiro.id_parceiro"))
 
     def __init__(self, status, nome_cliente, telefone, tipo_servico, profissional, horario, valor, parceiro_id, pessoa_id):

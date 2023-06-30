@@ -16,7 +16,7 @@ parser.add_argument('endereco', type=dict, required=True)
 
 
 '''
-  Classe Profissional (funcionário).
+  Classe Pessoa.
 '''
 
 class PessoaResource(Resource):

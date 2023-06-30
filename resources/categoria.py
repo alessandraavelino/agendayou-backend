@@ -6,8 +6,9 @@ from model.error import Error, error_campos
 
 parser = reqparse.RequestParser()
 parser.add_argument('categoria', required=True)
+
 '''
-  Classe Servico.
+  Classe Categoria.
 '''
 
 class CategoriaResource(Resource):

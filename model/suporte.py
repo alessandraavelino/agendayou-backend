@@ -15,7 +15,6 @@ class Suporte(db.Model):
     id_suporte = db.Column(db.Integer, primary_key=True)
     descricao = db.Column(db.String(500), nullable=False)
 
-    # Relacionamento com Parceiro
     pessoa = db.relationship("Pessoa", uselist=False, backref="suporte")
     pessoa_id = db.Column(db.Integer, db.ForeignKey("tb_pessoa.id_pessoa"))
 

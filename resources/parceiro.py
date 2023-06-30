@@ -15,7 +15,7 @@ parser.add_argument('nome_fantasia', required=True)
 parser.add_argument('categoria', required=True)
 
 '''
-  Classe Funcionário.
+  Classe Parceiro.
 '''
 
 class ParceiroResource(Resource):
@@ -76,8 +76,7 @@ class ParceiroResource(Resource):
             s = smtplib.SMTP('smtp.gmail.com: 587')
             s.starttls()
             s.login(msg['From'], password)
-            #s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
-            print("Email enviado com sucesso!!")
+            s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
             
             db.session.add(parceiro)
             db.session.commit()

@@ -26,7 +26,6 @@ class Servico(db.Model):
     horario = db.Column(db.DateTime, default=datetime.now)
     categoria = db.Column(db.String(50), nullable=False)
 
-    # Relacionamento com Parceiro
     parceiro = db.relationship("Parceiro", uselist=False, backref="servicos")
     categoria_id = db.Column(db.Integer, db.ForeignKey("tb_categoria.id_categoria"))
     parceiro_id = db.Column(db.Integer, db.ForeignKey("tb_parceiro.id_parceiro"))

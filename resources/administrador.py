@@ -9,13 +9,13 @@ parser = reqparse.RequestParser()
 parser.add_argument('email', required=True, help="Email é um campo obrigatório.")
 parser.add_argument('senha', required=True, help="Senha é campo obrigatório.")
 parser.add_argument('nome', required=True)
-parser.add_argument('dt_nasc', required=True) #checada de data
+parser.add_argument('dt_nasc', required=True)
 parser.add_argument('cpf', required=True)
 parser.add_argument('telefone', required=True)
 parser.add_argument('endereco', type=dict, required=True)
 
 '''
-  Classe Cliente.
+  Classe Administrador.
 '''
 
 class AdministradorResource(Resource):

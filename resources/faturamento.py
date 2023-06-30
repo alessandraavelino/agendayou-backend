@@ -16,8 +16,9 @@ parser.add_argument('valor', required=True)
 parser.add_argument('horario', required=True)
 parser.add_argument('parceiro_id', required=True)
 parser.add_argument('pessoa_id', required=True)
+
 '''
-  Classe Agendamentos.
+  Classe Faturamento
 '''
 
 class FaturamentoResource(Resource):

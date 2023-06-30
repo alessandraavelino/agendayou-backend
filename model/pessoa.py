@@ -32,7 +32,6 @@ class Pessoa(db.Model):
     cpf = db.Column(db.String(20), nullable=True, unique=True)
     telefone = db.Column(db.String(20), nullable=True)
 
-    # Relacionamento com Endereço
     endereco = db.relationship("Endereco", uselist=False)
     parceiro = db.relationship("Parceiro", uselist=False)
 
