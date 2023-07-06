@@ -36,7 +36,7 @@ class Parceiro(Pessoa, db.Model):
     agendamentos = db.relationship("Agendamento", cascade="all, delete")
 
     def __init__(self, nome, email, senha, nome_fantasia, categoria, foto=None, dt_nasc=None, cpf=None, telefone=None, endereco=None):
-        super().__init__(foto, nome, email, senha, dt_nasc, cpf, telefone, endereco)
+        super().__init__(nome, email, senha, cpf, telefone, endereco, foto, dt_nasc)
         self.nome_fantasia = nome_fantasia
         self.categoria = categoria
         self.status_aprovacao = 0

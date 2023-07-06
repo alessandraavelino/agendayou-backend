@@ -23,6 +23,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://alessandra:jh1mhvCb2Gq3Q20jacHf5E9lPVNYgqTl@dpg-ciev2t15rnujc4pnee2g-a.oregon-postgres.render.com/agendayou"
+#app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:123456@localhost:5432/agendayou"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
